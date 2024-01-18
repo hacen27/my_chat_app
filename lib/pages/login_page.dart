@@ -1,79 +1,80 @@
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/pages/chat_page.dart';
+import 'package:my_chat_app/providers/loginProvider.dart';
 import 'package:my_chat_app/utils/constants.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:my_chat_app/utils/localizations_helper.dart';
+import 'package:provider/provider.dart';
+
+import 'widgets/formz.dart';
 
 class LoginPage extends StatefulWidget {
+  static const path = "/login";
   const LoginPage({Key? key}) : super(key: key);
-
-  static Route<void> route() {
-    return MaterialPageRoute(builder: (context) => const LoginPage());
-  }
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool _isLoading = false;
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  Future<void> _signIn() async {
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      await supabase.auth.signInWithPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      Navigator.of(context)
-          .pushAndRemoveUntil(ChatPage.route(), (route) => false);
-    } on AuthException catch (error) {
-      context.showErrorSnackBar(message: error.message);
-    } catch (_) {
-      context.showErrorSnackBar(message: unexpectedErrorMessage);
-    }
-    if (mounted) {
-      setState(() {
-        _isLoading = true;
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Sign In')),
-      body: ListView(
-        padding: formPadding,
-        children: [
-          TextFormField(
-            controller: _emailController,
-            decoration: const InputDecoration(labelText: 'Email'),
-            keyboardType: TextInputType.emailAddress,
+    return ChangeNotifierProvider(
+        create: (context) => LoginProvider.initialize(),
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              LocalizationsHelper.msgs(context).loginButton,
+            ),
           ),
-          formSpacer,
-          TextFormField(
-            controller: _passwordController,
-            decoration: const InputDecoration(labelText: 'Password'),
-            obscureText: true,
-          ),
-          formSpacer,
-          ElevatedButton(
-            onPressed: _isLoading ? null : _signIn,
-            child: const Text('Login'),
-          ),
-        ],
-      ),
-    );
+          body: Consumer<LoginProvider?>(builder: (context, loginPro, child) {
+            if (loginPro == null) {
+              return const CircularProgressIndicator();
+            }
+            return Form(
+              key: loginPro.formKey,
+              child: Localizations.override(
+                context: context,
+                child: ListView(
+                  padding: formPadding,
+                  children: [
+                    TextFormField(
+                      controller: loginPro.emailController,
+                      decoration: InputDecoration(
+                          labelText:
+                              LocalizationsHelper.msgs(context).emailLabel),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) => loginPro.state.email
+                          .validator(value ?? '')
+                          ?.text(context),
+                    ),
+                    formSpacer,
+                    TextFormField(
+                      controller: loginPro.passwordController,
+                      decoration: InputDecoration(
+                          labelText:
+                              LocalizationsHelper.msgs(context).passwordLabel),
+                      obscureText: true,
+                      validator: (value) => loginPro.state.password
+                          .validator(value ?? '')
+                          ?.text(context),
+                    ),
+                    formSpacer,
+                    ElevatedButton(
+                      onPressed: loginPro.isLoading
+                          ? null
+                          : () async {
+                              loginPro.signIn(
+                                context,
+                              );
+                            },
+                      child: Text(
+                        LocalizationsHelper.msgs(context).loginButton,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
+        ));
   }
 }

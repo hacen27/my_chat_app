@@ -1,0 +1,23 @@
+
+{
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "usernameLabel": "Username",
+  "registerButton": "Register",
+  "alreadyHaveAccount": "I already have an account",
+  "chatApp": "Chat App",
+  "language": "Language",
+ "typeMessage": "Type a message",
+  "sendMessage": "Send",
+  "loginButton": "Login",
+  "submittedSuccessfully": "Submitted successfully! 🎉",
+  "somethingWentWrong": "Something went wrong... 🚨",
+  "emailValidation": "Please ensure the email entered is valid",
+  "emptyEmailField": "Please enter an email",
+  "passwordValidation": "Password must be at least 8 characters and contain at least one letter and number",
+  "emptyPasswordField": "Please enter a password",
+  "required": "Required",
+  "min6Characters": "6 characters minimum",
+ "alphanumericUnderscore": "De 3 à 24 caractères avec alphanumérique ou underscore",
+  "startConversation": "Commencez votre conversation maintenant :)"
+}

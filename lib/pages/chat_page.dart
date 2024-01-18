@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import 'package:my_chat_app/models/message.dart';
@@ -10,57 +8,31 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timeago/timeago.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+import '../utils/localizations_helper.dart';
 
-  static Route<void> route() {
-    return MaterialPageRoute(
-      builder: (context) => const ChatPage(),
-    );
-  }
+class ChatPage extends StatefulWidget {
+  static const path = "/chat";
+
+  const ChatPage({Key? key}) : super(key: key);
 
   @override
   State<ChatPage> createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
-  // late final Stream<List<Message>> _messagesStream;
-  // final Map<String, Profile> _profileCache = {};
-
-  // @override
-  // void initState() {
-  //   final myUserId = supabase.auth.currentUser!.id;
-  //   _messagesStream = supabase
-  //       .from('messages')
-  //       .stream(primaryKey: ['id'])
-  //       .order('created_at')
-  //       .map((maps) => maps
-  //           .map((map) => Message.fromMap(map: map, myUserId: myUserId))
-  //           .toList());
-  //   super.initState();
-  // }
-
-  // Future<void> _loadProfileCache(String profileId) async {
-  //   if (_profileCache[profileId] != null) {
-  //     return;
-  //   }
-  //   final data =
-  //       await supabase.from('profiles').select().eq('id', profileId).single();
-  //   final profile = Profile.fromMap(data);
-  //   setState(() {
-  //     _profileCache[profileId] = profile;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      // create: (context) => ChatProvider(),
       create: (context) => ChatProvider.initialize(),
       child: Scaffold(
-        appBar: AppBar(title: const Text('Chat')),
-        body: Consumer<ChatProvider>(builder: (context, chtPro, child) {
-          // Load profile information here
+        appBar: AppBar(title: Text(LocalizationsHelper.msgs(context).chatApp)),
+        body: Consumer<ChatProvider?>(builder: (context, chtPro, child) {
+          if (chtPro == null) {
+            return const Center(
+                child: CircularProgressIndicator(
+                    color: Color.fromARGB(255, 20, 65, 190)));
+          }
+
           chtPro.loadProfileCache;
           return StreamBuilder<List<Message>>(
             stream: chtPro.messagesStream,
@@ -71,8 +43,9 @@ class _ChatPageState extends State<ChatPage> {
                   children: [
                     Expanded(
                       child: messages.isEmpty
-                          ? const Center(
-                              child: Text('Start your conversation now :)'),
+                          ? Center(
+                              child: Text(LocalizationsHelper.msgs(context)
+                                  .startConversation),
                             )
                           : ListView.builder(
                               reverse: true,
@@ -80,13 +53,9 @@ class _ChatPageState extends State<ChatPage> {
                               itemBuilder: (context, index) {
                                 final message = messages[index];
 
-                                chtPro.loadProfileCache(message.profileId);
-
                                 return _ChatBubble(
-                                  message: message,
-                                  profile:
-                                      chtPro.profileCache[message.profileId],
-                                );
+                                    message: message,
+                                    profile: chtPro.myprofile);
                               },
                             ),
                     ),
@@ -104,7 +73,6 @@ class _ChatPageState extends State<ChatPage> {
   }
 }
 
-/// Set of widget that contains TextField and Button to submit message
 class _MessageBar extends StatefulWidget {
   const _MessageBar({
     Key? key,
@@ -132,8 +100,8 @@ class _MessageBarState extends State<_MessageBar> {
                   maxLines: null,
                   autofocus: true,
                   controller: _textController,
-                  decoration: const InputDecoration(
-                    hintText: 'Type a message',
+                  decoration: InputDecoration(
+                    hintText: LocalizationsHelper.msgs(context).typeMessage,
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     contentPadding: EdgeInsets.all(8),
@@ -142,7 +110,7 @@ class _MessageBarState extends State<_MessageBar> {
               ),
               TextButton(
                 onPressed: () => _submitMessage(),
-                child: const Text('Send'),
+                child: Text(LocalizationsHelper.msgs(context).sendMessage),
               ),
             ],
           ),

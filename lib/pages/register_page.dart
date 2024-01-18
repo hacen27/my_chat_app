@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/pages/chat_page.dart';
 import 'package:my_chat_app/pages/login_page.dart';
 import 'package:my_chat_app/utils/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../models/appLonguages.dart';
+import '../providers/appLocal.dart';
 import '../providers/registerProvider.dart';
+import '../utils/localizations_helper.dart';
+import '../utils/validator.dart';
 
 class RegisterPage extends StatefulWidget {
+  static const path = "/register";
   const RegisterPage({Key? key, required this.isRegistering}) : super(key: key);
-
-  static Route<void> route({bool isRegistering = false}) {
-    return MaterialPageRoute(
-      builder: (context) => RegisterPage(isRegistering: isRegistering),
-    );
-  }
 
   final bool isRegistering;
 
@@ -24,32 +21,52 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final bool _isLoading = false;
+  final AppValidator vald = AppValidator();
+  late String currentDefaultSystemLocale;
+  int selectedLangIndex = 0;
+  var _appLocale;
 
-  // final _formKey = GlobalKey<FormState>();
+  late AppLanguage dropdownValue;
+  @override
+  void initState() {
+    super.initState();
+    dropdownValue = AppLanguage.languages().first;
+  }
 
-  // final _emailController = TextEditingController();
-  // final _passwordController = TextEditingController();
-  // final _usernameController = TextEditingController();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _appLocale = Provider.of<AppLocale>(context);
+    getLocale().then((locale) {
+      _appLocale.changeLocale(Locale(locale.languageCode));
+      dropdownValue = AppLanguage.languages()
+          .firstWhere((element) => element.languageCode == locale.languageCode);
+      _setFlag();
+    });
+  }
 
-  // Future<void> _signUp() async {
-  //   final isValid = _formKey.currentState!.validate();
-  //   if (!isValid) {
-  //     return;
-  //   }
-  //   final email = _emailController.text;
-  //   final password = _passwordController.text;
-  //   final username = _usernameController.text;
-  //   try {
-  //     await supabase.auth.signUp(
-  //         email: email, password: password, data: {'username': username});
-  //     Navigator.of(context)
-  //         .pushAndRemoveUntil(ChatPage.route(), (route) => false);
-  //   } on AuthException catch (error) {
-  //     context.showErrorSnackBar(message: error.message);
-  //   } catch (error) {
-  //     context.showErrorSnackBar(message: unexpectedErrorMessage);
-  //   }
-  // }
+  void _setFlag() {
+    currentDefaultSystemLocale = _appLocale.locale.languageCode.split('_')[0];
+    setState(() {
+      selectedLangIndex = _getLangIndex(currentDefaultSystemLocale);
+    });
+  }
+
+  int _getLangIndex(String currentDefaultSystemLocale) {
+    int _langIndex = 0;
+    switch (currentDefaultSystemLocale) {
+      case 'en':
+        _langIndex = 0;
+        break;
+      case 'fr':
+        _langIndex = 1;
+        break;
+      case 'ar':
+        _langIndex = 2;
+        break;
+    }
+    return _langIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +74,15 @@ class _RegisterPageState extends State<RegisterPage> {
       create: (context) => RegisterProvider(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Register'),
+          title: Text(LocalizationsHelper.msgs(context).registerButton),
+          actions: [
+            buildLanguageDropdown(),
+          ],
         ),
-        body: Consumer<RegisterProvider>(builder: (context, regisPro, child) {
+        body: Consumer<RegisterProvider?>(builder: (context, regisPro, child) {
+          if (regisPro == null) {
+            return const CircularProgressIndicator();
+          }
           return Form(
             key: regisPro.formKey,
             child: ListView(
@@ -67,52 +90,77 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 TextFormField(
                   controller: regisPro.emailController,
-                  decoration: const InputDecoration(
-                    label: Text('Email'),
+                  decoration: InputDecoration(
+                    label: Text(LocalizationsHelper.msgs(context).emailLabel),
                   ),
-                  validator: regisPro.emailValidator,
+                  validator: (val) => vald!.email(val, context),
                   keyboardType: TextInputType.emailAddress,
                 ),
                 formSpacer,
                 TextFormField(
                     controller: regisPro.passwordController,
                     obscureText: true,
-                    decoration: const InputDecoration(
-                      label: Text('Password'),
+                    decoration: InputDecoration(
+                      label:
+                          Text(LocalizationsHelper.msgs(context).passwordLabel),
                     ),
-                    validator: regisPro.passwordValidator),
+                    validator: (val) => vald!.password(val, context)),
                 formSpacer,
                 TextFormField(
-                    controller: regisPro.usernameController,
-                    decoration: const InputDecoration(
-                      label: Text('Username'),
+                    controller: regisPro!.usernameController,
+                    decoration: InputDecoration(
+                      label:
+                          Text(LocalizationsHelper.msgs(context).usernameLabel),
                     ),
-                    validator: regisPro.usernameValidator),
+                    validator: (val) => vald!.username(val, context)),
                 formSpacer,
                 ElevatedButton(
                   onPressed: _isLoading
                       ? null
                       : () async {
                           regisPro.signUp(
-                              context,
-                              regisPro.emailController,
-                              regisPro.passwordController,
-                              regisPro.usernameController,
-                              regisPro.formKey);
+                            context,
+                          );
                         },
-                  child: const Text('Register'),
+                  child: Text(LocalizationsHelper.msgs(context).registerButton),
                 ),
                 formSpacer,
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).push(LoginPage.route());
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, LoginPage.path, (route) => false);
                   },
-                  child: const Text('I already have an account'),
+                  child: Text(
+                      LocalizationsHelper.msgs(context).alreadyHaveAccount),
                 )
               ],
             ),
           );
         }),
+      ),
+    );
+  }
+
+  Widget buildLanguageDropdown() {
+    return Center(
+      child: DropdownButton<AppLanguage>(
+        value: dropdownValue,
+        iconSize: 40,
+        style: const TextStyle(fontSize: 20),
+        onChanged: (AppLanguage? language) {
+          dropdownValue = language!;
+          _appLocale.changeLocale(Locale(language!.languageCode));
+          _setFlag();
+          setLocale(language!.languageCode);
+        },
+        items: AppLanguage.languages()
+            .map<DropdownMenuItem<AppLanguage>>(
+              (e) => DropdownMenuItem<AppLanguage>(
+                value: e,
+                child: Text(e.name),
+              ),
+            )
+            .toList(),
       ),
     );
   }

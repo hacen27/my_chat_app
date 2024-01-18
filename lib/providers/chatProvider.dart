@@ -7,14 +7,14 @@ import '../utils/constants.dart';
 
 class ChatProvider with ChangeNotifier {
   late final Stream<List<Message>> _messagesStream;
-  final Map<String, Profile> _profileCache = {};
 
   Stream<List<Message>> get messagesStream => _messagesStream;
 
-  Map<String, Profile> get profileCache => Map.from(_profileCache);
+  Profile? myprofile;
 
   ChatProvider.initialize() {
     final myUserId = supabase.auth.currentUser!.id;
+
     _messagesStream = supabase
         .from('messages')
         .stream(primaryKey: ['id'])
@@ -23,39 +23,19 @@ class ChatProvider with ChangeNotifier {
             .map((map) => Message.fromMap(map: map, myUserId: myUserId))
             .toList());
 
-    if (kDebugMode) {
-      print('=====///=============///=====');
-      print('Chat provider Started');
-      print('///==========///==========///');
-    }
     notifyListeners();
   }
 
   Future<void> loadProfileCache(String profileId) async {
-    if (_profileCache[profileId] != null) {
+    if (myprofile!.id == profileId) {
       return;
     }
+
     final data =
         await supabase.from('profiles').select().eq('id', profileId).single();
     final profile = Profile.fromMap(data);
+    myprofile = profile;
 
-    _profileCache[profileId] = profile;
-
-    if (kDebugMode) {
-      print('=====///=============///=====');
-      print('Chat provider loaded');
-      print('///==========///==========///');
-    }
     notifyListeners();
   }
-
-  //  Future<void> loadProfileCacheForMessages() async {
-  //   final profileIds = _messagesStream
-  //       .expand((messages) => messages.map((message) => message.profileId))
-  //       .toSet();
-
-  //   for (final profileId in profileIds) {
-  //     await loadProfileCache(profileId);
-  //   }
-  // }
 }
