@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_chat_app/pages/screenProfiles.dart';
 import 'package:my_chat_app/pages/chat_page.dart';
+import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:my_chat_app/pages/login_page.dart';
 import 'package:my_chat_app/pages/register_page.dart';
 import 'package:my_chat_app/utils/constants.dart';
@@ -34,14 +36,16 @@ class MyApp extends StatelessWidget {
           supportedLocales: AppLocalizations.supportedLocales,
           locale: locale.locale,
           theme: appTheme,
-          initialRoute: '/',
+          initialRoute: SplashPage.path,
           routes: {
             SplashPage.path: (context) => const SplashPage(),
-            ChatPage.path: (context) => const ChatPage(),
+            ChatPage.path: (context) => ChatPage(),
             LoginPage.path: (context) => const LoginPage(),
             RegisterPage.path: (context) => const RegisterPage(
                   isRegistering: false,
                 ),
+            ConversationsPage.path: (context) => const ConversationsPage(),
+            ProfilesScreen.path: (context) => const ProfilesScreen(),
           },
         );
       }),

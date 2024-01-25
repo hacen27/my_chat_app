@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/constants.dart';
 
@@ -25,7 +26,8 @@ class RegisterProvider with ChangeNotifier {
 
       notifyListeners();
 
-      Navigator.pushNamedAndRemoveUntil(context, '/chat', (route) => false);
+      Navigator.pushNamedAndRemoveUntil(
+          context, ConversationsPage.path, (route) => false);
     } on AuthException catch (error) {
       context.showErrorSnackBar(message: error.message);
     } catch (error) {

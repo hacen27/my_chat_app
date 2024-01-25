@@ -1,6 +1,7 @@
 class Message {
   Message({
     required this.id,
+    required this.conversationId,
     required this.profileId,
     required this.content,
     required this.createdAt,
@@ -8,6 +9,8 @@ class Message {
   });
 
   final String id;
+
+  final String conversationId;
 
   final String profileId;
 
@@ -17,12 +20,25 @@ class Message {
 
   final bool isMine;
 
+  factory Message.fromJson(
+      Map<String, dynamic> json, String? conversationId, String profileId) {
+    return Message(
+      id: json['id'],
+      conversationId: json['conversation_id'],
+      profileId: json['send_id'],
+      content: json['content'],
+      createdAt: DateTime.parse(json['created_at']),
+      isMine: conversationId == json['send_id'],
+    );
+  }
+
   Message.fromMap({
     required Map<String, dynamic> map,
     required String myUserId,
   })  : id = map['id'],
-        profileId = map['profile_id'],
+        conversationId = map['conversation_id'],
+        profileId = map['send_id'],
         content = map['content'],
         createdAt = DateTime.parse(map['created_at']),
-        isMine = myUserId == map['profile_id'];
+        isMine = myUserId == map['send_id'];
 }

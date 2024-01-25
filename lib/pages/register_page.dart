@@ -93,7 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   decoration: InputDecoration(
                     label: Text(LocalizationsHelper.msgs(context).emailLabel),
                   ),
-                  validator: (val) => vald!.email(val, context),
+                  validator: (val) => vald.email(val, context),
                   keyboardType: TextInputType.emailAddress,
                 ),
                 formSpacer,
@@ -104,15 +104,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       label:
                           Text(LocalizationsHelper.msgs(context).passwordLabel),
                     ),
-                    validator: (val) => vald!.password(val, context)),
+                    validator: (val) => vald.password(val, context)),
                 formSpacer,
                 TextFormField(
-                    controller: regisPro!.usernameController,
+                    controller: regisPro.usernameController,
                     decoration: InputDecoration(
                       label:
                           Text(LocalizationsHelper.msgs(context).usernameLabel),
                     ),
-                    validator: (val) => vald!.username(val, context)),
+                    validator: (val) => vald.username(val, context)),
                 formSpacer,
                 ElevatedButton(
                   onPressed: _isLoading
@@ -149,9 +149,9 @@ class _RegisterPageState extends State<RegisterPage> {
         style: const TextStyle(fontSize: 20),
         onChanged: (AppLanguage? language) {
           dropdownValue = language!;
-          _appLocale.changeLocale(Locale(language!.languageCode));
+          _appLocale.changeLocale(Locale(language.languageCode));
           _setFlag();
-          setLocale(language!.languageCode);
+          setLocale(language.languageCode);
         },
         items: AppLanguage.languages()
             .map<DropdownMenuItem<AppLanguage>>(
