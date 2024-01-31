@@ -127,7 +127,7 @@ class _ProfilesScreen extends StatelessWidget {
                             );
                           }
                         },
-                        child: const Text("OK", style: TextStyle(fontSize: 25)))
+                        child: const Text("OK", style: TextStyle(fontSize: 20)))
                   ],
                 ),
               ),

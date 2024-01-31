@@ -16,10 +16,9 @@ class WebServices {
       {
         'conversation_id': newconversation!.id,
         'profile_id': sendId
-      }, // Ajouter le créateur
+      }, 
     ];
 
-    // Ajouter les autres profils comme participants
     participants.addAll(
       profileIds.map((profileId) => {
             'conversation_id': newconversation!.id,
