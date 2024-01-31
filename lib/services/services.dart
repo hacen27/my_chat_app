@@ -4,46 +4,62 @@ import 'package:my_chat_app/utils/constants.dart';
 Newconversation? newconversation;
 
 class WebServices {
-  Future<dynamic> newConversationService(String profileId) async {
+  Future<dynamic> newConversationService(
+      List<String> profileIds, String title) async {
+    final sendId = await supabase.auth.currentUser!.id;
     final conversation =
-        await supabase.from('conversation').insert({}).select();
+        await supabase.from('conversation').insert({'title': title}).select();
 
     newconversation = Newconversation.fromJson(conversation.first);
 
-    final conversationdata =
-        await supabase.from('conversation_participant').insert([
-      {'conversation_id': newconversation!.id, 'profile_id': profileId},
-    ]).select();
+    List<Map<String, dynamic>> participants = [
+      {
+        'conversation_id': newconversation!.id,
+        'profile_id': sendId
+      }, // Ajouter le créateur
+    ];
 
-    return conversationdata;
+    // Ajouter les autres profils comme participants
+    participants.addAll(
+      profileIds.map((profileId) => {
+            'conversation_id': newconversation!.id,
+            'profile_id': profileId,
+          }),
+    );
+    if (participants.isNotEmpty) {
+      final conversationdata = await supabase
+          .from('conversation_participant')
+          .insert(participants)
+          .select();
+
+      return conversationdata;
+    }
   }
 
-  Future<dynamic> conversationByIdService(String conversationId) async {
+  Future<List<dynamic>> conversationParticipantService() async {
+    final myId = await supabase.auth.currentUser!.id;
     try {
-      final profile_id = await supabase.auth.currentUser!.id;
-
       final data = await supabase
-          .from('conversation')
-          .select(
-              'id, created_at, messages(id, content,created_at),profiles(id, username,created_at)')
-          .eq('profile_id', conversationId)
-          .order('created_at', ascending: false)
-          .single();
+          .from('conversation_participant')
+          .select('id, created_at, conversation_id, conversation!inner(title)')
+          .eq('profile_id', myId)
+          .order('created_at', ascending: false);
+
       return data;
     } catch (e) {
       print(e.toString());
-      return {};
+      return [];
     }
   }
 
   Future<List<dynamic>> conversationService() async {
-    final profile_id = await supabase.auth.currentUser!.id;
+    final myId = await supabase.auth.currentUser!.id;
     try {
       final data = await supabase
           .from('conversation')
           .select(
               'id, created_at,  message!inner(*),profile(id, username,created_at)')
-          .eq('message.send_id', profile_id)
+          .eq('message.send_id', myId)
           .order('created_at', ascending: false)
           .limit(10);
       return data;
@@ -54,11 +70,13 @@ class WebServices {
   }
 
   Future<List<dynamic>> profilesService() async {
+    final myId = await supabase.auth.currentUser!.id;
     try {
       final data = await supabase
           .from('profile')
-          .select('id, username,created_at,conversation(id)')
-          .isFilter('conversation(id)', null);
+          .select(
+              'id, username,created_at,conversation_participant(conversation_id)')
+          .neq('id', myId);
       return data;
     } catch (e) {
       print(e.toString());

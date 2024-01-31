@@ -39,22 +39,36 @@ class _ConversationsPage extends StatelessWidget {
           ],
         ),
         body: ListView.builder(
-          itemCount: provideControleur.conversations.length,
+          itemCount: provideControleur.conversationsParticipant.length,
           itemBuilder: (context, index) {
-            final conversation = provideControleur.conversations[index];
-            // final profile = conversation.profiles[index];
+            final conversation =
+                provideControleur.conversationsParticipant[index];
             return ListTile(
               title: ProfileItem(
-                profile: conversation.profiles.first,
-                conversationId: conversation.id,
+                title: conversation.conversation.title,
+                conversationId: conversation.conversationId,
               ),
-              subtitle: conversation.messages.isNotEmpty
-                  ? Text(
-                      '${format(conversation.messages.last.createdAt, locale: 'en_short')} ${conversation.messages.last.content}',
-                    )
-                  : const Text('No messages in this conversation'),
+              subtitle: Text('      ' +
+                  '${format(conversation.createdAt, locale: 'en_short')}'),
             );
           },
         ));
   }
 }
+
+
+
+
+
+
+// return ListTile(
+//               title: ProfileItem(
+//                 profile: conversation.profiles.first,
+//                 conversationId: conversation.id,
+//               ),
+//               subtitle: conversation.messages.isNotEmpty
+//                   ? Text(
+//                       '${format(conversation.messages.last.createdAt, locale: 'en_short')} ${conversation.messages.last.content}',
+//                     )
+//                   : const Text('No messages in this conversation'),
+//             );

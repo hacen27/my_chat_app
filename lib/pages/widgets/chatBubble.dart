@@ -9,21 +9,21 @@ class ChatBubble extends StatelessWidget {
   const ChatBubble({
     Key? key,
     required this.message,
-    required this.profile,
+    // required this.profile,
   }) : super(key: key);
 
   final Message message;
-  final Profile? profile;
+  // final Profile? profile;
 
   @override
   Widget build(BuildContext context) {
     List<Widget> chatContents = [
       if (!message.isMine)
         CircleAvatar(
-          child: profile == null
+          child: message.sendName == null
               ? preloader
               : Text(
-                  profile!.username.toUpperCase().substring(0, 1),
+                  message.sendName!.toUpperCase().substring(0, 1),
                   style: const TextStyle(color: Colors.white),
                 ),
         ),

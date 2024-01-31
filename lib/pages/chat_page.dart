@@ -47,7 +47,7 @@ class _ChatPageState extends State<ChatPage> {
                 child: CircularProgressIndicator(
                     color: Color.fromARGB(255, 20, 65, 190)));
           }
-          chtPro.loadProfileCache;
+          // chtPro.loadProfileCache;
           return StreamBuilder<List<Message>>(
             stream: chtPro.messagesStream,
             builder: (context, snapshot) {
@@ -66,10 +66,10 @@ class _ChatPageState extends State<ChatPage> {
                               itemCount: messages.length,
                               itemBuilder: (context, index) {
                                 final message = messages[index];
-                                chtPro.loadProfileCache(message.profileId);
+                                // chtPro.loadProfileCache(message.profileId);
                                 return ChatBubble(
-                                    message: message,
-                                    profile: chtPro.myprofile);
+                                  message: message,
+                                );
                               },
                             ),
                     ),

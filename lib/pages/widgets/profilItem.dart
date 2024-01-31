@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/models/profile.dart';
 import 'package:my_chat_app/pages/chat_page.dart';
 
 class ProfileItem extends StatelessWidget {
-  final Profile? profile;
-  final String? conversationId;
-  const ProfileItem({Key? key, required this.profile, this.conversationId})
+  final String title;
+  final String conversationId;
+  const ProfileItem(
+      {Key? key, required this.title, required this.conversationId})
       : super(key: key);
 
   @override
@@ -29,10 +29,10 @@ class ProfileItem extends StatelessWidget {
                   },
                   child: Text(
                     style: TextStyle(color: Colors.white),
-                    (profile!.username.toUpperCase().substring(0, 1)),
+                    (title.toUpperCase().substring(0, 1)),
                   )),
             ),
-            Text(profile!.username),
+            Text(title),
           ]),
         ],
       ),

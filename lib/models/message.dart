@@ -4,6 +4,7 @@ class Message {
     required this.conversationId,
     required this.profileId,
     required this.content,
+    this.sendName,
     required this.createdAt,
     required this.isMine,
   });
@@ -15,6 +16,7 @@ class Message {
   final String profileId;
 
   final String content;
+  final String? sendName;
 
   final DateTime createdAt;
 
@@ -27,6 +29,7 @@ class Message {
       conversationId: json['conversation_id'],
       profileId: json['send_id'],
       content: json['content'],
+      sendName: json['send_name'],
       createdAt: DateTime.parse(json['created_at']),
       isMine: conversationId == json['send_id'],
     );
@@ -40,5 +43,6 @@ class Message {
         profileId = map['send_id'],
         content = map['content'],
         createdAt = DateTime.parse(map['created_at']),
+        sendName = map['send_name'],
         isMine = myUserId == map['send_id'];
 }

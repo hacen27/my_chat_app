@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/models/conversations.dart';
 import 'package:my_chat_app/services/services.dart';
@@ -13,8 +12,14 @@ class ProfileProvider with ChangeNotifier {
   Conversation? conversation;
   String conversationId = '';
 
+  bool isSelectItem = false;
+  Map<int, bool> selectedItem = {};
+  List<String> profilIds = [];
+
   bool isSearching = false;
   final searchTextCotrollor = TextEditingController();
+  final textTitleController = TextEditingController();
+  bool isComplet = false;
   WebServices webservices = WebServices();
 
   void addSearChedForitemsToserchedList(String searchProfile) {
@@ -42,6 +47,11 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void setCimplet() {
+    isComplet = true;
+    notifyListeners();
+  }
+
   ProfileProvider() {
     initializeData();
   }
@@ -49,6 +59,31 @@ class ProfileProvider with ChangeNotifier {
   Future<void> initializeData() async {
     await getAllprofile();
 
+    notifyListeners();
+  }
+
+  void itemSelection(int index, bool? isSelectedData) {
+    selectedItem[index] = !isSelectedData!;
+    isSelectItem = selectedItem.containsValue(true);
+    final Id =
+        isSearching ? searchFonProfiles![index].id : allProfiles![index].id;
+
+    if (!isSelectedData) {
+      profilIds.add(Id);
+    } else {
+      profilIds.remove(Id);
+      if (profilIds.isEmpty) {
+        isSelectItem = selectedItem.containsValue(false);
+      }
+    }
+
+    notifyListeners();
+  }
+
+  void resetSelection() {
+    selectedItem.clear();
+    profilIds.clear();
+    isSelectItem = false;
     notifyListeners();
   }
 
@@ -61,8 +96,9 @@ class ProfileProvider with ChangeNotifier {
         profileMaps.map((profile) => Profile.fromJson(profile)).toList();
   }
 
-  void addtoConversation(String profilId) async {
-    final newconversation = await webservices.newConversationService(profilId);
+  Future<void> addtoConversation() async {
+    final newconversation = await webservices.newConversationService(
+        profilIds, textTitleController.text);
     print("//////Data///////");
     print(newconversation);
   }

@@ -75,10 +75,17 @@ class MessageBarState extends State<MessageBar> {
 
     try {
       final myId = supabase.auth.currentUser!.id;
+      final send_name = await supabase
+          .from('profile')
+          .select('username')
+          .eq('id', myId)
+          .single();
+
       await supabase.from('message').insert({
         'content': text,
         'conversation_id': conversationId,
         'send_id': myId,
+        'send_name': send_name['username'],
       });
     } on PostgrestException catch (error) {
       context.showErrorSnackBar(message: error.message);

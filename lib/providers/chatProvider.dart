@@ -12,9 +12,6 @@ class ChatProvider with ChangeNotifier {
 
   Stream<List<Message>> get messagesStream => _messagesStream;
 
-  Profile? _profileCache;
-  Profile? get myprofile => _profileCache;
-
   WebServices webservices = WebServices();
 
   ChatProvider.initialize(String conversationId) {
@@ -32,17 +29,17 @@ class ChatProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadProfileCache(String profileId) async {
-    if (_profileCache!.id == profileId) {
-      return;
-    }
+  // Future<void> loadProfileCache(String profileId) async {
+  //   if (_profileCache!.id == profileId) {
+  //     return;
+  //   }
 
-    final data =
-        await supabase.from('profiles').select().eq('id', profileId).single();
-    final profile = Profile.fromMap(data);
+  //   final data =
+  //       await supabase.from('profiles').select().eq('id', profileId).single();
+  //   final profile = Profile.fromMap(data);
 
-    _profileCache = profile;
+  //   _profileCache = profile;
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 }
