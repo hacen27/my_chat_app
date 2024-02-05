@@ -1,5 +1,3 @@
-import 'package:my_chat_app/models/profile.dart';
-
 class ConversationParticpant {
   int id;
   DateTime createdAt;

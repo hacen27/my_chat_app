@@ -1,45 +1,33 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/models/conversations.dart';
 import 'package:my_chat_app/models/message.dart';
-import 'package:my_chat_app/services/services.dart';
-
-import '../models/profile.dart';
-import '../utils/constants.dart';
+import 'package:my_chat_app/services/chatServices.dart';
 
 class ChatProvider with ChangeNotifier {
-  late final Stream<List<Message>> _messagesStream;
+  List<Message> _messages = [];
 
-  Stream<List<Message>> get messagesStream => _messagesStream;
+  List<Message> get messages => _messages;
 
-  WebServices webservices = WebServices();
+  final ChatServices _chatServices = ChatServices();
+  late final StreamSubscription<List<Message>> _messagesSubscription;
 
   ChatProvider.initialize(String conversationId) {
-    final myUserId = supabase.auth.currentUser!.id;
-
-    _messagesStream = supabase
-        .from('message')
-        .stream(primaryKey: ['id'])
-        .eq('conversation_id', conversationId)
-        .order('created_at')
-        .map((maps) => maps
-            .map((map) => Message.fromMap(map: map, myUserId: myUserId))
-            .toList());
-
-    notifyListeners();
+    _messagesSubscription = _chatServices.getAllMessages(conversationId).listen(
+      (newMessages) {
+        _messages = newMessages;
+        notifyListeners();
+      },
+      onError: (err) {
+        print("Erreur lors de la réception des messages: $err");
+      },
+    );
   }
 
-  // Future<void> loadProfileCache(String profileId) async {
-  //   if (_profileCache!.id == profileId) {
-  //     return;
-  //   }
-
-  //   final data =
-  //       await supabase.from('profiles').select().eq('id', profileId).single();
-  //   final profile = Profile.fromMap(data);
-
-  //   _profileCache = profile;
-
-  //   notifyListeners();
-  // }
+  @override
+  void dispose() {
+    _messagesSubscription.cancel();
+    super.dispose();
+  }
 }

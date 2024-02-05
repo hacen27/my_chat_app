@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/providers/loginProvider.dart';
+import 'package:my_chat_app/providers/accounts/loginProvider.dart';
 import 'package:my_chat_app/utils/constants.dart';
 import 'package:my_chat_app/utils/localizations_helper.dart';
 import 'package:provider/provider.dart';
 
-import 'widgets/formz.dart';
+import '../widgets/formz.dart';
 
 class LoginPage extends StatefulWidget {
   static const path = "/login";

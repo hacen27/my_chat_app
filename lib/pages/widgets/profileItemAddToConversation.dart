@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/models/profile.dart';
-import 'package:my_chat_app/pages/conversations_page.dart';
 
 class ProfileItemAddToConversation extends StatelessWidget {
   late Profile? profile;
@@ -32,16 +31,7 @@ class ProfileItemAddToConversation extends StatelessWidget {
                     style: TextButton.styleFrom(
                       textStyle: const TextStyle(fontSize: 20),
                     ),
-                    onPressed: () async {
-                      // await newConversation!();
-                      // if (context.mounted) {
-                      //   Navigator.pushNamedAndRemoveUntil(
-                      //     context,
-                      //     ConversationsPage.path,
-                      //     (route) => false,
-                      //   );
-                      // }
-                    },
+                    onPressed: () async {},
                     child: Text(
                       profile!.username.toUpperCase().substring(0, 1),
                       style: const TextStyle(color: Colors.white),

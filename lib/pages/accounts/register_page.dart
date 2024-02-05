@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/pages/login_page.dart';
+import 'package:my_chat_app/pages/accounts/login_page.dart';
 import 'package:my_chat_app/utils/constants.dart';
 import 'package:provider/provider.dart';
 
-import '../models/appLonguages.dart';
-import '../providers/appLocal.dart';
-import '../providers/registerProvider.dart';
-import '../utils/localizations_helper.dart';
-import '../utils/validator.dart';
+import '../../models/appLonguages.dart';
+import '../../providers/appLocal.dart';
+import '../../providers/accounts/registerProvider.dart';
+import '../../utils/localizations_helper.dart';
+import '../../utils/validator.dart';
 
 class RegisterPage extends StatefulWidget {
   static const path = "/register";

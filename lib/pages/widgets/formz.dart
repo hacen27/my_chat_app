@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:my_chat_app/utils/localizations_helper.dart';

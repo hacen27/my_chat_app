@@ -20,129 +20,153 @@ class _ProfilesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final prov = context.watch<ProfileProvider>();
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.amber,
-          leading: prov.isSearching
-              ? const BackButton(color: Colors.black)
-              : Container(),
-          title: prov.isSearching
-              ? TextField(
-                  controller: prov.searchTextCotrollor,
-                  cursorColor: Colors.white,
-                  decoration: const InputDecoration(
-                    fillColor: Colors.white,
-                    hintText: 'find  a Profile...',
-                    hintStyle: TextStyle(color: Colors.white, fontSize: 18),
-                  ),
-                  style: const TextStyle(color: Colors.black, fontSize: 18),
-                  onChanged: (searchProfile) {
-                    prov.addSearChedForitemsToserchedList(searchProfile);
-                  },
-                )
-              : const Text(
-                  'Profiles',
-                  style: TextStyle(color: Colors.black),
+      appBar: AppBar(
+        backgroundColor: Colors.amber,
+        leading: prov.isSearching
+            ? const BackButton(color: Colors.black)
+            : Container(),
+        title: prov.isSearching
+            ? TextField(
+                controller: prov.searchTextCotrollor,
+                cursorColor: Colors.white,
+                decoration: const InputDecoration(
+                  fillColor: Colors.white,
+                  hintText: 'find  a Profile...',
+                  hintStyle: TextStyle(color: Colors.white, fontSize: 18),
                 ),
-          actions: [
-            if (prov.isSearching)
-              IconButton(
-                onPressed: () {
-                  prov.clearSearch();
-                  Navigator.pop(context);
+                style: const TextStyle(color: Colors.black, fontSize: 18),
+                onChanged: (searchProfile) {
+                  prov.addSearChedForitemsToserchedList(searchProfile);
                 },
-                icon: const Icon(
-                  Icons.clear,
-                  color: Colors.black12,
-                ),
               )
-            else
-              IconButton(
-                onPressed: () => prov.starSearch(context),
-                icon: const Icon(
-                  Icons.search,
-                  color: Colors.black12,
-                ),
+            : const Text(
+                'Profiles',
+                style: TextStyle(color: Colors.black),
               ),
-          ],
-        ),
-        body: !prov.isComplet
-            ? SingleChildScrollView(
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: prov.searchTextCotrollor.text.isEmpty
-                        ? prov.allProfiles!.length
-                        : prov.searchFonProfiles!.length,
-                    itemBuilder: (ctx, index) {
-                      prov.selectedItem[index] =
-                          prov.selectedItem[index] ?? false;
-                      bool? isSelectedData = prov.selectedItem[index];
-                      return InkWell(
-                        // onLongPress: () {
-                        //   prov.itemSelection(index, isSelectedData);
-                        // },
-                        onTap: () {
-                          prov.itemSelection(index, isSelectedData);
-                        },
-                        child: ProfileItemAddToConversation(
-                          profile: prov.searchTextCotrollor.text.isEmpty
-                              ? prov.allProfiles![index]
-                              : prov.searchFonProfiles![index],
-                          isSelected: isSelectedData!,
+        actions: [
+          if (prov.isSearching)
+            IconButton(
+              onPressed: () {
+                prov.clearSearch();
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.clear,
+                color: Colors.black,
+              ),
+            )
+          else
+            IconButton(
+              onPressed: () => prov.starSearch(context),
+              icon: const Icon(
+                Icons.search,
+                color: Colors.black,
+              ),
+            ),
+        ],
+      ),
+      body: !prov.isComplet
+          ? SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 15),
+                  if (prov.profilIds.isNotEmpty)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            prov.resetSelection();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 216, 141, 27),
+                          ),
+                          child: const Text('Annuler'),
                         ),
-                      );
-                    }),
-              )
-            : Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: prov.textTitleController,
-                      cursorColor: Colors.white,
-                      decoration: const InputDecoration(
-                        fillColor: Colors.blue,
-                        hintText: 'Put Title For Conversation...',
-                        hintStyle: TextStyle(color: Colors.black, fontSize: 18),
-                      ),
-                      style: const TextStyle(color: Colors.black, fontSize: 18),
-                      //  onSubmitted: (){
-                      //     prov.addtoConversation();
-                      //   },
+                        const SizedBox(width: 150),
+                        ElevatedButton(
+                          onPressed: () {
+                            prov.setComplet();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blueAccent,
+                          ),
+                          child: const Text("Ajouter"),
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 100,
-                    ),
-                    TextButton(
-                        style: TextButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            elevation: 2,
-                            backgroundColor: Colors.amber),
-                        onPressed: () {
-                          prov.addtoConversation();
-                          if (context.mounted) {
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              ConversationsPage.path,
-                              (route) => false,
-                            );
-                          }
-                        },
-                        child: const Text("OK", style: TextStyle(fontSize: 20)))
-                  ],
-                ),
+                  const SizedBox(height: 30),
+                  SingleChildScrollView(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: prov.searchTextCotrollor.text.isEmpty
+                            ? prov.allProfiles.length
+                            : prov.searchFonProfiles.length,
+                        itemBuilder: (ctx, index) {
+                          bool? isSeleted = prov.isProfileSelected(
+                              prov.searchTextCotrollor.text.isEmpty
+                                  ? prov.allProfiles[index].id
+                                  : prov.searchFonProfiles[index].id);
+                          return InkWell(
+                            onTap: () {
+                              prov.toggleProfileSelection(
+                                prov.searchTextCotrollor.text.isEmpty
+                                    ? prov.allProfiles[index].id
+                                    : prov.searchFonProfiles[index].id,
+                              );
+                            },
+                            child: ProfileItemAddToConversation(
+                              profile: prov.searchTextCotrollor.text.isEmpty
+                                  ? prov.allProfiles[index]
+                                  : prov.searchFonProfiles[index],
+                              isSelected: isSeleted,
+                            ),
+                          );
+                        }),
+                  ),
+                ],
               ),
-        floatingActionButton: prov.isSelectItem
-            ? FloatingActionButton(
-                onPressed: () {
-                  prov.setCimplet();
-                },
-                tooltip: 'Next',
-                child: const Icon(Icons.check),
-              )
-            : FloatingActionButton(
-                onPressed: () {},
-                tooltip: 'Go back!',
-                child: const Text('back'),
-              ));
+            )
+          : Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  TextField(
+                    controller: prov.textTitleController,
+                    cursorColor: Colors.white,
+                    decoration: const InputDecoration(
+                      fillColor: Colors.blue,
+                      hintText: 'Put Title For Conversation...',
+                      hintStyle: TextStyle(color: Colors.black, fontSize: 18),
+                    ),
+                    style: const TextStyle(color: Colors.black, fontSize: 18),
+                    //    onSubmitted: (){
+                    //       prov.addtoConversation();
+                    //     },
+                  ),
+                  const SizedBox(
+                    height: 100,
+                  ),
+                  TextButton(
+                      style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          elevation: 2,
+                          backgroundColor: Colors.amber),
+                      onPressed: () {
+                        prov.addtoConversation();
+                        if (context.mounted) {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            ConversationsPage.path,
+                            (route) => false,
+                          );
+                        }
+                      },
+                      child: const Text("OK", style: TextStyle(fontSize: 20)))
+                ],
+              ),
+            ),
+    );
   }
 }

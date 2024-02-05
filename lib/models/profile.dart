@@ -37,3 +37,12 @@ class Profile {
 }
 
 final Map<String, Profile> _profileCache = {};
+
+class ProfileParticipant {
+  late Profile profile;
+  ProfileParticipant({required this.profile});
+
+  ProfileParticipant.fromJson(Map<String, dynamic>? json) {
+    profile = Profile.fromJson(json!["profile"]);
+  }
+}

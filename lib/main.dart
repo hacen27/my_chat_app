@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_chat_app/pages/addlistProfils.dart';
+import 'package:my_chat_app/pages/coversationDetails.dart';
 import 'package:my_chat_app/pages/screenProfiles.dart';
 import 'package:my_chat_app/pages/chat_page.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
-import 'package:my_chat_app/pages/login_page.dart';
-import 'package:my_chat_app/pages/register_page.dart';
+import 'package:my_chat_app/pages/accounts/login_page.dart';
+import 'package:my_chat_app/pages/accounts/register_page.dart';
 import 'package:my_chat_app/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -46,6 +48,8 @@ class MyApp extends StatelessWidget {
                 ),
             ConversationsPage.path: (context) => const ConversationsPage(),
             ProfilesScreen.path: (context) => const ProfilesScreen(),
+            ConversationDetails.path: (context) => const ConversationDetails(),
+            Addprofiles.path: (context) => const Addprofiles()
           },
         );
       }),

@@ -1,29 +1,32 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/models/conversations.dart';
-import 'package:my_chat_app/services/services.dart';
+import 'package:my_chat_app/services/coversationServices.dart';
+import 'package:my_chat_app/services/profileServices.dart';
 
 import '../models/profile.dart';
 
 class ProfileProvider with ChangeNotifier {
-  List<Profile>? allProfiles = [];
-  List<Profile>? searchFonProfiles = [];
-  Conversation? conversation;
+  List<Profile> allProfiles = [];
+  List<Profile> searchFonProfiles = [];
+
   String conversationId = '';
 
-  bool isSelectItem = false;
-  Map<int, bool> selectedItem = {};
   List<String> profilIds = [];
 
   bool isSearching = false;
   final searchTextCotrollor = TextEditingController();
   final textTitleController = TextEditingController();
   bool isComplet = false;
-  WebServices webservices = WebServices();
+  final ProfileServices _profileServices = ProfileServices();
+  final CoversationServices _coversationServices = CoversationServices();
+
+  ProfileProvider() {
+    initializeData();
+  }
 
   void addSearChedForitemsToserchedList(String searchProfile) {
-    searchFonProfiles = allProfiles!
+    searchFonProfiles = allProfiles
         .where((Profile) =>
             Profile.username.toLowerCase().startsWith(searchProfile))
         .toList();
@@ -47,13 +50,29 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setCimplet() {
+  void setComplet() {
     isComplet = true;
     notifyListeners();
   }
 
-  ProfileProvider() {
-    initializeData();
+  void toggleProfileSelection(String profileId) {
+    if (profilIds.contains(profileId)) {
+      profilIds.remove(profileId);
+    } else {
+      profilIds.add(profileId);
+    }
+
+    notifyListeners();
+  }
+
+  bool isProfileSelected(String profileId) {
+    return profilIds.contains(profileId);
+  }
+
+  void resetSelection() {
+    profilIds.clear();
+
+    notifyListeners();
   }
 
   Future<void> initializeData() async {
@@ -62,44 +81,15 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void itemSelection(int index, bool? isSelectedData) {
-    selectedItem[index] = !isSelectedData!;
-    isSelectItem = selectedItem.containsValue(true);
-    final Id =
-        isSearching ? searchFonProfiles![index].id : allProfiles![index].id;
-
-    if (!isSelectedData) {
-      profilIds.add(Id);
-    } else {
-      profilIds.remove(Id);
-      if (profilIds.isEmpty) {
-        isSelectItem = selectedItem.containsValue(false);
-      }
-    }
-
-    notifyListeners();
-  }
-
-  void resetSelection() {
-    selectedItem.clear();
-    profilIds.clear();
-    isSelectItem = false;
-    notifyListeners();
-  }
-
   Future<void> getAllprofile() async {
-    final profileMaps = await webservices.profilesService();
-    print("//////profiles///////");
-    print(profileMaps);
+    final profileMaps = await _profileServices.allprofiles();
 
-    searchFonProfiles = allProfiles =
-        profileMaps.map((profile) => Profile.fromJson(profile)).toList();
+    searchFonProfiles = allProfiles = profileMaps;
+    notifyListeners();
   }
 
   Future<void> addtoConversation() async {
-    final newconversation = await webservices.newConversationService(
+    await _coversationServices.newConversation(
         profilIds, textTitleController.text);
-    print("//////Data///////");
-    print(newconversation);
   }
 }

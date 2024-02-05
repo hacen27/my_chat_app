@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:my_chat_app/models/message.dart';
-import 'package:my_chat_app/pages/register_page.dart';
+import 'package:my_chat_app/pages/coversationDetails.dart';
+import 'package:my_chat_app/pages/accounts/register_page.dart';
 import 'package:my_chat_app/pages/widgets/chatBubble.dart';
 import 'package:my_chat_app/pages/widgets/messageBar.dart';
 import 'package:my_chat_app/providers/chatProvider.dart';
@@ -10,11 +10,18 @@ import 'package:provider/provider.dart';
 
 import '../utils/localizations_helper.dart';
 
+class Arguments {
+  String Id;
+  String title;
+  Arguments({required this.Id, required this.title});
+}
+
 class ChatPage extends StatefulWidget {
   static const path = "/chat";
 
   ChatPage({
     Key? key,
+    // required this.args,
   }) : super(key: key);
 
   @override
@@ -22,14 +29,35 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  late Arguments arguments;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    arguments = ModalRoute.of(context)!.settings.arguments as Arguments;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final conversationId = ModalRoute.of(context)!.settings.arguments;
+    final id = arguments.Id;
+    final title = arguments.title;
     return ChangeNotifierProvider(
-      create: (context) => ChatProvider.initialize(conversationId as String),
+      create: (context) => ChatProvider.initialize(id),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(LocalizationsHelper.msgs(context).chatApp),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          title: TextButton(
+            onPressed: () async {
+              Navigator.pushNamed(context, ConversationDetails.path,
+                  arguments: Arguments(Id: id, title: title));
+            },
+            child: Text(title),
+          ),
           actions: [
             TextButton(
               onPressed: () async {
@@ -46,41 +74,31 @@ class _ChatPageState extends State<ChatPage> {
             return const Center(
                 child: CircularProgressIndicator(
                     color: Color.fromARGB(255, 20, 65, 190)));
+          } else {
+            return Column(
+              children: [
+                Expanded(
+                  child: chtPro.messages.isEmpty
+                      ? Center(
+                          child: Text(LocalizationsHelper.msgs(context)
+                              .startConversation),
+                        )
+                      : ListView.builder(
+                          reverse: true,
+                          itemCount: chtPro.messages.length,
+                          itemBuilder: (context, index) {
+                            final message = chtPro.messages[index];
+
+                            return ChatBubble(
+                              message: message,
+                            );
+                          },
+                        ),
+                ),
+                MessageBar(conversationId: id),
+              ],
+            );
           }
-          // chtPro.loadProfileCache;
-          return StreamBuilder<List<Message>>(
-            stream: chtPro.messagesStream,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final messages = snapshot.data!;
-                return Column(
-                  children: [
-                    Expanded(
-                      child: messages.isEmpty
-                          ? Center(
-                              child: Text(LocalizationsHelper.msgs(context)
-                                  .startConversation),
-                            )
-                          : ListView.builder(
-                              reverse: true,
-                              itemCount: messages.length,
-                              itemBuilder: (context, index) {
-                                final message = messages[index];
-                                // chtPro.loadProfileCache(message.profileId);
-                                return ChatBubble(
-                                  message: message,
-                                );
-                              },
-                            ),
-                    ),
-                    MessageBar(conversationId: conversationId as String),
-                  ],
-                );
-              } else {
-                return preloader;
-              }
-            },
-          );
         }),
       ),
     );

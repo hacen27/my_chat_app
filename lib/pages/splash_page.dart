@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
-import 'package:my_chat_app/pages/register_page.dart';
+import 'package:my_chat_app/pages/accounts/register_page.dart';
 import 'package:my_chat_app/utils/constants.dart';
 
 class SplashPage extends StatefulWidget {

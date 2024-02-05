@@ -6,8 +6,8 @@ import 'package:formz/formz.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:my_chat_app/utils/localizations_helper.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../pages/widgets/formz.dart';
-import '../utils/constants.dart';
+import '../../pages/widgets/formz.dart';
+import '../../utils/constants.dart';
 
 class LoginProvider with ChangeNotifier {
   final formKey = GlobalKey<FormState>();
