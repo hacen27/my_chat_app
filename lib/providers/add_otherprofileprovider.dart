@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_chat_app/models/profile.dart';
 import 'package:my_chat_app/services/profile_services.dart';
 
+import '../pages/widgets/customsnackbar.dart';
+
 class AddlistprofilesProvider with ChangeNotifier {
   List<Profile> profiles = [];
   final ProfileServices _webservices = ProfileServices();
@@ -41,10 +43,16 @@ class AddlistprofilesProvider with ChangeNotifier {
       final myprofiles = await _webservices.getprofilesByconId(conversationId);
       profiles = myprofiles;
       notifyListeners();
-    } catch (e) {}
+    } catch (e) {
+      ErrorSnackBar(message: e.toString());
+    }
   }
 
   addProfile(profilIds, conversationId) {
-    _webservices.addToConversation(profilIds, conversationId);
+    try {
+      _webservices.addToConversation(profilIds, conversationId);
+    } catch (e) {
+      ErrorSnackBar(message: e.toString());
+    }
   }
 }

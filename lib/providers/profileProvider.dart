@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
 import 'package:my_chat_app/services/coversation_services.dart';
 import 'package:my_chat_app/services/profile_services.dart';
 
@@ -27,8 +28,8 @@ class ProfileProvider with ChangeNotifier {
 
   void addSearChedForitemsToserchedList(String searchProfile) {
     searchFonProfiles = allProfiles
-        .where((Profile) =>
-            Profile.username.toLowerCase().startsWith(searchProfile))
+        .where((profile) =>
+            profile.username.toLowerCase().startsWith(searchProfile))
         .toList();
     notifyListeners();
   }
@@ -89,7 +90,11 @@ class ProfileProvider with ChangeNotifier {
   }
 
   Future<void> addtoConversation() async {
-    await _coversationServices.newConversation(
-        profilIds, textTitleController.text);
+    try {
+      await _coversationServices.newConversation(
+          profilIds, textTitleController.text);
+    } catch (err) {
+      ErrorSnackBar(message: err.toString());
+    }
   }
 }

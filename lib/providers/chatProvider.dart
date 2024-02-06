@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/models/message.dart';
+import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
 
 import 'package:my_chat_app/services/chat_services.dart';
 
@@ -21,7 +22,7 @@ class ChatProvider with ChangeNotifier {
         notifyListeners();
       },
       onError: (err) {
-        print("Erreur lors de la réception des messages: $err");
+        ErrorSnackBar(message: err.toString());
       },
     );
   }

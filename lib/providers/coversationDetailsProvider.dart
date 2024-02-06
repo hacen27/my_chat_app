@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/models/profile.dart';
+import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
 
 import 'package:my_chat_app/services/profile_services.dart';
 
@@ -17,9 +18,13 @@ class CoversationDetailsProvider with ChangeNotifier {
   }
 
   Future<void> getProfilData() async {
-    final myprofiles = await _webservices.getprofilesPByconId(conversationId);
-    profileParticipant = myprofiles;
-    notifyListeners();
+    try {
+      final myprofiles = await _webservices.getprofilesPByconId(conversationId);
+      profileParticipant = myprofiles;
+      notifyListeners();
+    } catch (err) {
+      ErrorSnackBar(message: err.toString());
+    }
   }
 
   deletProfile() async {
