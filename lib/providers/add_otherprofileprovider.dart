@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/models/profile.dart';
-
-import '../services/profileServices.dart';
+import 'package:my_chat_app/services/profile_services.dart';
 
 class AddlistprofilesProvider with ChangeNotifier {
   List<Profile> profiles = [];
@@ -38,9 +37,11 @@ class AddlistprofilesProvider with ChangeNotifier {
   }
 
   Future<void> getProfilData(conversationId) async {
-    final myprofiles = await _webservices.getprofilesByconId(conversationId);
-    profiles = myprofiles;
-    notifyListeners();
+    try {
+      final myprofiles = await _webservices.getprofilesByconId(conversationId);
+      profiles = myprofiles;
+      notifyListeners();
+    } catch (e) {}
   }
 
   addProfile(profilIds, conversationId) {

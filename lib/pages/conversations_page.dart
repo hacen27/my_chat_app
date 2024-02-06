@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/chat_page.dart';
-import 'package:my_chat_app/pages/screenProfiles.dart';
-import 'package:my_chat_app/pages/widgets/profilItem.dart';
+import 'package:my_chat_app/pages/screenprofiles.dart';
+import 'package:my_chat_app/pages/widgets/profile_item.dart';
+import 'package:my_chat_app/utils/localizations_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart';
-import '../providers/coversationProvider.dart';
+import '../providers/coversationprovider.dart';
 
 class ConversationsPage extends StatelessWidget {
   static const path = "/conversation";
@@ -27,14 +28,14 @@ class _ConversationsPage extends StatelessWidget {
     final provider = context.watch<CoversationProvider>();
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Conversation"),
+          title: Text(LocalizationsHelper.msgs(context).conversationLabel),
           actions: [
             IconButton(
               icon: const Icon(Icons.add),
-              tooltip: "Create New Conversation",
+              tooltip:
+                  LocalizationsHelper.msgs(context).createNewConversationButton,
               onPressed: () {
                 Navigator.pushNamed(context, ProfilesScreen.path);
-                // providerCntr.createNewConversation();
               },
             ),
           ],

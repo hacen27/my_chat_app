@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/chat_page.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
-import 'package:my_chat_app/pages/widgets/profileItemAddToConversation.dart';
-import 'package:my_chat_app/providers/addOtherProfileProvider.dart';
+import 'package:my_chat_app/pages/widgets/profileitemaddtoconversation.dart';
+
+import 'package:my_chat_app/providers/add_otherprofileprovider.dart';
 import 'package:provider/provider.dart';
 
 class Addprofiles extends StatelessWidget {

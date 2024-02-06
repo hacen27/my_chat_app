@@ -1,5 +1,6 @@
 import 'package:my_chat_app/models/message.dart';
-import 'package:my_chat_app/utils/constants.dart';
+
+import '../utils/supabase_constants.dart';
 
 class ChatServices {
   late Stream<List<Message>> _messagesStream;

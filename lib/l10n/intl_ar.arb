@@ -19,6 +19,20 @@
   "required": "مطلوب",
   "min6Characters": "الحد الأدنى 6 أحرف",
   "alphanumericUnderscore": "من 3 إلى 24 حرفًا مع مسافة أو شرطة تحتية",
-  "startConversation": "ابدأ محادثتك الآن :)"
+  "startConversation": "ابدأ محادثتك الآن :)",
+  
+  "cancelButton": "إلغاء",
+  "addButton": "إضافة",
+ "conversationLabel": "المحادثة",
+  "createNewConversationButton": "إنشاء محادثة جديدة",
+  "infoLabel": "معلومات",
+  "addButton": "إضافة",
+  "confirmationLabel": "تأكيد",
+  "leaveConversationConfirmation": "هل تريد حقًا مغادرة المحادثة؟",
+  "leaveButton": "مغادرة",
+  "membersLabel": "الأعضاء",
+  "findProfilePlaceholder": "ابحث عن ملف شخصي...",
+  "profilesLabel": "الملفات الشخصية",
+  "conversationTitlePlaceholder": "ضع عنوانًا للمحادثة..."
 }
 

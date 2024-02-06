@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/models/message.dart';
-import 'package:my_chat_app/services/chatServices.dart';
+
+import 'package:my_chat_app/services/chat_services.dart';
 
 class ChatProvider with ChangeNotifier {
   List<Message> _messages = [];

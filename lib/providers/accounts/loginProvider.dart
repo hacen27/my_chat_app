@@ -1,13 +1,14 @@
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
+import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
 import 'package:my_chat_app/utils/localizations_helper.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../pages/widgets/formz.dart';
 import '../../utils/constants.dart';
+import '../../utils/supabase_constants.dart';
 
 class LoginProvider with ChangeNotifier {
   final formKey = GlobalKey<FormState>();
@@ -54,11 +55,11 @@ class LoginProvider with ChangeNotifier {
             context, ConversationsPage.path, (route) => false);
       }
     } on AuthException catch (error) {
-      context.showErrorSnackBar(message: error.message);
+      ErrorSnackBar(message: error.message);
       isLoading = false;
     } catch (_) {
       log(_.toString());
-      context.showErrorSnackBar(message: unexpectedErrorMessage);
+      ErrorSnackBar(message: unexpectedErrorMessage);
       isLoading = false;
     }
 

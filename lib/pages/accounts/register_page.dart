@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/accounts/login_page.dart';
+import 'package:my_chat_app/providers/localprovider.dart';
 import 'package:my_chat_app/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/appLonguages.dart';
-import '../../providers/appLocal.dart';
-import '../../providers/accounts/registerProvider.dart';
+
+import '../../providers/accounts/registerprovider.dart';
 import '../../utils/localizations_helper.dart';
 import '../../utils/validator.dart';
 
 class RegisterPage extends StatefulWidget {
   static const path = "/register";
-  const RegisterPage({Key? key, required this.isRegistering}) : super(key: key);
-
-  final bool isRegistering;
+  const RegisterPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -36,7 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _appLocale = Provider.of<AppLocale>(context);
+    _appLocale = Provider.of<LocaleProvider>(context);
     getLocale().then((locale) {
       _appLocale.changeLocale(Locale(locale.languageCode));
       dropdownValue = AppLanguage.languages()
@@ -157,7 +158,10 @@ class _RegisterPageState extends State<RegisterPage> {
             .map<DropdownMenuItem<AppLanguage>>(
               (e) => DropdownMenuItem<AppLanguage>(
                 value: e,
-                child: Text(e.name),
+                child: Text(
+                  e.name,
+                  style: const TextStyle(color: Colors.black),
+                ),
               ),
             )
             .toList(),

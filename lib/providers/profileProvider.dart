@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/services/coversationServices.dart';
-import 'package:my_chat_app/services/profileServices.dart';
+import 'package:my_chat_app/services/coversation_services.dart';
+import 'package:my_chat_app/services/profile_services.dart';
 
 import '../models/profile.dart';
 

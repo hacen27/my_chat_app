@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/models/profile.dart';
-import 'package:my_chat_app/services/profileServices.dart';
+
+import 'package:my_chat_app/services/profile_services.dart';
 
 class CoversationDetailsProvider with ChangeNotifier {
   List<Profile> profiles = [];

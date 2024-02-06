@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
-import 'package:my_chat_app/pages/widgets/profileItemAddToConversation.dart';
+import 'package:my_chat_app/pages/widgets/profileitemaddtoconversation.dart';
 import 'package:provider/provider.dart';
 import '../providers/profileProvider.dart';
+import '../utils/localizations_helper.dart';
 
 class ProfilesScreen extends StatelessWidget {
   const ProfilesScreen({Key? key}) : super(key: key);
@@ -82,7 +83,8 @@ class _ProfilesScreen extends StatelessWidget {
                             backgroundColor:
                                 const Color.fromARGB(255, 216, 141, 27),
                           ),
-                          child: const Text('Annuler'),
+                          child: Text(
+                              LocalizationsHelper.msgs(context).leaveButton),
                         ),
                         const SizedBox(width: 150),
                         ElevatedButton(
@@ -92,7 +94,8 @@ class _ProfilesScreen extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blueAccent,
                           ),
-                          child: const Text("Ajouter"),
+                          child:
+                              Text(LocalizationsHelper.msgs(context).addButton),
                         ),
                       ],
                     ),
@@ -135,9 +138,10 @@ class _ProfilesScreen extends StatelessWidget {
                   TextField(
                     controller: prov.textTitleController,
                     cursorColor: Colors.white,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       fillColor: Colors.blue,
-                      hintText: 'Put Title For Conversation...',
+                      hintText: LocalizationsHelper.msgs(context)
+                          .conversationTitlePlaceholder,
                       hintStyle: TextStyle(color: Colors.black, fontSize: 18),
                     ),
                     style: const TextStyle(color: Colors.black, fontSize: 18),
@@ -163,7 +167,8 @@ class _ProfilesScreen extends StatelessWidget {
                           );
                         }
                       },
-                      child: const Text("OK", style: TextStyle(fontSize: 20)))
+                      child: Text(LocalizationsHelper.msgs(context).addButton,
+                          style: TextStyle(fontSize: 20)))
                 ],
               ),
             ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/pages/addlistProfils.dart';
+import 'package:my_chat_app/pages/addlistprofils.dart';
 import 'package:my_chat_app/pages/chat_page.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
+import 'package:my_chat_app/utils/localizations_helper.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/coversationDetailsProvider.dart';
@@ -29,7 +30,7 @@ class _ConversationDetails extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Info"),
+          title: Text(LocalizationsHelper.msgs(context).infoLabel),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios),
             onPressed: () {
@@ -56,7 +57,7 @@ class _ConversationDetails extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent,
                 ),
-                child: const Text('Ajouter'),
+                child: Text(LocalizationsHelper.msgs(context).addButton),
               ),
               const SizedBox(width: 20),
               ElevatedButton(
@@ -65,18 +66,21 @@ class _ConversationDetails extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Confirmation'),
-                        content: const Text(
-                            'Voulez-vous vraiment quitter la discussion ?'),
+                        title: Text(LocalizationsHelper.msgs(context)
+                            .confirmationLabel),
+                        content: Text(LocalizationsHelper.msgs(context)
+                            .leaveConversationConfirmation),
                         actions: <Widget>[
                           TextButton(
-                            child: const Text('Annuler'),
+                            child: Text(
+                                LocalizationsHelper.msgs(context).cancelButton),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
                           ),
                           TextButton(
-                            child: const Text('Quitter'),
+                            child: Text(
+                                LocalizationsHelper.msgs(context).leaveButton),
                             onPressed: () {
                               provideControleur.deletProfile();
                               if (context.mounted) {
@@ -93,12 +97,12 @@ class _ConversationDetails extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
                 ),
-                child: const Text('Quitter'),
+                child: Text(LocalizationsHelper.msgs(context).leaveButton),
               ),
             ],
           ),
           const SizedBox(height: 20),
-          const Text("Les Membres"),
+          Text(LocalizationsHelper.msgs(context).membersLabel),
           const SizedBox(height: 10),
           Expanded(
             child: ListView.builder(
@@ -108,7 +112,6 @@ class _ConversationDetails extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.only(left: 60, right: 60, top: 6),
                   child: Row(
-                    // crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CircleAvatar(

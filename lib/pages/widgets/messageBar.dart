@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
 import 'package:my_chat_app/utils/localizations_helper.dart';
+import 'package:my_chat_app/utils/supabase_constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../utils/constants.dart';
@@ -88,9 +90,9 @@ class MessageBarState extends State<MessageBar> {
         'send_name': send_name['username'],
       });
     } on PostgrestException catch (error) {
-      context.showErrorSnackBar(message: error.message);
+      ErrorSnackBar(message: error.message);
     } catch (_) {
-      context.showErrorSnackBar(message: unexpectedErrorMessage);
+      ErrorSnackBar(message: unexpectedErrorMessage);
     }
   }
 }

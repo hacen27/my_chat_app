@@ -19,6 +19,20 @@
   "required": "Obligatoire",
   "min6Characters": "Au moins 6 caractères",
    "alphanumericUnderscore": "3-24 characters long with alphanumeric or underscore",
-  "startConversation": "Start your conversation now :)"
+  "startConversation": "Start your conversation now :)",
+   "addProfilesLabel": "Ajouter des profils",
+  "cancelButton": "Annuler",
+  "addButton": "Ajouter",
+    "conversationLabel": "Conversation",
+  "createNewConversationButton": "Créer une nouvelle conversation",
+  "infoLabel": "Info",
+  "addButton": "Ajouter",
+  "confirmationLabel": "Confirmation",
+  "leaveConversationConfirmation": "Voulez-vous vraiment quitter la discussion ?",
+  "leaveButton": "Quitter",
+  "membersLabel": "Les Membres",
+   "findProfilePlaceholder": "Trouver un profil...",
+  "profilesLabel": "Profils",
+  "conversationTitlePlaceholder": "Mettre un titre pour la conversation..."
 
 }

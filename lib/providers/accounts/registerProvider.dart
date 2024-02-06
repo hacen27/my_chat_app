@@ -1,8 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
+import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../utils/constants.dart';
+import '../../utils/supabase_constants.dart';
 
 class RegisterProvider with ChangeNotifier {
   final formKey = GlobalKey<FormState>();
@@ -29,9 +30,9 @@ class RegisterProvider with ChangeNotifier {
       Navigator.pushNamedAndRemoveUntil(
           context, ConversationsPage.path, (route) => false);
     } on AuthException catch (error) {
-      context.showErrorSnackBar(message: error.message);
+      ErrorSnackBar(message: error.message);
     } catch (error) {
-      context.showErrorSnackBar(message: unexpectedErrorMessage);
+      ErrorSnackBar(message: unexpectedErrorMessage);
     }
   }
 }
