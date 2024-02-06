@@ -1,12 +1,14 @@
 import 'package:my_chat_app/models/message.dart';
+import 'package:my_chat_app/providers/accounts/auth_provider.dart';
 
 import '../utils/supabase_constants.dart';
 
 class ChatServices {
+  final AuthProvider authProvider = AuthProvider();
   late Stream<List<Message>> _messagesStream;
 
   Stream<List<Message>> getAllMessages(String conversationId) {
-    final myUserId = supabase.auth.currentUser!.id;
+    final myUserId = authProvider.getUser()!.id;
 
     _messagesStream = supabase
         .from('message')

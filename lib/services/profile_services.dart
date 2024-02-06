@@ -1,9 +1,12 @@
 import 'package:my_chat_app/models/profile.dart';
+import 'package:my_chat_app/providers/accounts/auth_provider.dart';
 import 'package:my_chat_app/utils/supabase_constants.dart';
 
 class ProfileServices {
+  final AuthProvider authProvider = AuthProvider();
+
   Future<List<Profile>> allprofiles() async {
-    final myId = supabase.auth.currentUser!.id;
+    final myId = authProvider.getUser()!.id;
 
     final data = await supabase
         .from('profile')
@@ -65,8 +68,7 @@ class ProfileServices {
   }
 
   Future<void> quitConversation(String coversationId) async {
-    final myId = supabase.auth.currentUser!.id;
-
+    final myId = authProvider.getUser()!.id;
     await supabase
         .from('conversation_participant')
         .delete()
