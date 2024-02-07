@@ -15,4 +15,23 @@ class ChatServices {
 
     return messagesStream;
   }
+
+  Future<dynamic> submitMessg(
+      String conversationId, String myId, String text) async {
+    final data = await supabase
+        .from('profile')
+        .select('username')
+        .eq('id', myId)
+        .single();
+
+    final senderName = data['username'];
+
+    final messeges = supabase.from('message').insert({
+      'content': text,
+      'conversation_id': conversationId,
+      'send_id': myId,
+      'send_name': senderName,
+    });
+    return messeges;
+  }
 }

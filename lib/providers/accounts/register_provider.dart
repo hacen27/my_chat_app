@@ -24,9 +24,7 @@ class RegisterProvider with ChangeNotifier {
     final password = passwordController.text;
     final username = usernameController.text;
     try {
-      authProvider!.signUp(email, password, username);
-
-      notifyListeners();
+      await authProvider!.signUp(email, password, username);
 
       // ignore: use_build_context_synchronously
       Navigator.pushNamedAndRemoveUntil(
@@ -36,5 +34,6 @@ class RegisterProvider with ChangeNotifier {
     } catch (error) {
       const ErrorSnackBar(message: unexpectedErrorMessage);
     }
+    notifyListeners();
   }
 }

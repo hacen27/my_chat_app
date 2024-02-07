@@ -16,6 +16,7 @@ class CoversationDetailsProvider with ChangeNotifier {
   final ProfileServices _webservices = ProfileServices();
   final String conversationId;
   User? get currentUser => AuthProvider().getUser();
+
   CoversationDetailsProvider({required this.conversationId}) {
     getProfilData();
   }

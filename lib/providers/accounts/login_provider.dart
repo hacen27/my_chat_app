@@ -45,7 +45,7 @@ class LoginProvider with ChangeNotifier {
     state = state.copyWith(status: FormzSubmissionStatus.inProgress);
 
     try {
-      authProvider!.login(
+      await authProvider!.login(
         emailController.text,
         passwordController.text,
       );

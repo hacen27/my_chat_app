@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_overrides
+
 class AppLanguage {
   final String name;
   final String languageCode;
@@ -12,10 +14,10 @@ class AppLanguage {
     ];
   }
 
-  // @override
-  // bool operator ==(dynamic other) =>
-  //     other != null && other is AppLanguage && name == other.name;
+  @override
+  bool operator ==(dynamic other) =>
+      other != null && other is AppLanguage && name == other.name;
 
-  // @override
-  // int get hashCode => super.hashCode;
+  @override
+  int get hashCode => super.hashCode;
 }
