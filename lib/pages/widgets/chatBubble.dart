@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/models/profile.dart';
 import 'package:my_chat_app/utils/constants.dart';
 import 'package:timeago/timeago.dart';
 
@@ -9,11 +8,9 @@ class ChatBubble extends StatelessWidget {
   const ChatBubble({
     Key? key,
     required this.message,
-    // required this.profile,
   }) : super(key: key);
 
   final Message message;
-  // final Profile? profile;
 
   @override
   Widget build(BuildContext context) {

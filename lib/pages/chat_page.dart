@@ -4,23 +4,16 @@ import 'package:my_chat_app/pages/coversationdetails.dart';
 import 'package:my_chat_app/pages/accounts/register_page.dart';
 import 'package:my_chat_app/pages/widgets/chatbubble.dart';
 import 'package:my_chat_app/pages/widgets/messagebar.dart';
-import 'package:my_chat_app/providers/chatprovider.dart';
-import 'package:my_chat_app/utils/constants.dart';
+import 'package:my_chat_app/providers/chat_provider.dart';
 import 'package:my_chat_app/utils/supabase_constants.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/localizations_helper.dart';
 
-class Arguments {
-  String Id;
-  String title;
-  Arguments({required this.Id, required this.title});
-}
-
 class ChatPage extends StatefulWidget {
   static const path = "/chat";
 
-  ChatPage({
+  const ChatPage({
     Key? key,
     // required this.args,
   }) : super(key: key);
@@ -40,7 +33,7 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    final id = arguments.Id;
+    final id = arguments.id;
     final title = arguments.title;
     return ChangeNotifierProvider(
       create: (context) => ChatProvider.initialize(id),
@@ -55,7 +48,7 @@ class _ChatPageState extends State<ChatPage> {
           title: TextButton(
             onPressed: () async {
               Navigator.pushNamed(context, ConversationDetails.path,
-                  arguments: Arguments(Id: id, title: title));
+                  arguments: Arguments(id: id, title: title));
             },
             child: Text(title),
           ),
@@ -63,6 +56,7 @@ class _ChatPageState extends State<ChatPage> {
             TextButton(
               onPressed: () async {
                 await supabase.auth.signOut();
+                // ignore: use_build_context_synchronously
                 Navigator.pushNamedAndRemoveUntil(
                     context, RegisterPage.path, (route) => false);
               },
@@ -104,4 +98,10 @@ class _ChatPageState extends State<ChatPage> {
       ),
     );
   }
+}
+
+class Arguments {
+  String id;
+  String title;
+  Arguments({required this.id, required this.title});
 }

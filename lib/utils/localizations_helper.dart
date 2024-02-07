@@ -12,12 +12,12 @@ class LocalizationsHelper {
 }
 
 Future setLocale(String languageCode) async {
-  SharedPreferences _prefs = await SharedPreferences.getInstance();
-  await _prefs.setString(selectedLang, languageCode);
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString(selectedLang, languageCode);
 }
 
 Future<Locale> getLocale() async {
-  SharedPreferences _prefs = await SharedPreferences.getInstance();
-  String languageCode = _prefs.getString(selectedLang) ?? 'en';
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String languageCode = prefs.getString(selectedLang) ?? 'en';
   return Locale(languageCode);
 }

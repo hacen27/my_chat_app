@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/chat_page.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
-import 'package:my_chat_app/pages/widgets/profileitemaddtoconversation.dart';
+import 'package:my_chat_app/pages/widgets/profile_item_add_to_conversation.dart';
 
-import 'package:my_chat_app/providers/add_otherprofileprovider.dart';
+import 'package:my_chat_app/providers/add_otherprofile_provider.dart';
 import 'package:provider/provider.dart';
 
 class Addprofiles extends StatelessWidget {
@@ -15,7 +15,7 @@ class Addprofiles extends StatelessWidget {
     final arguments = ModalRoute.of(context)!.settings.arguments as Arguments;
 
     return ChangeNotifierProvider(
-      create: (_) => AddlistprofilesProvider(conversationId: arguments.Id),
+      create: (_) => AddlistprofilesProvider(conversationId: arguments.id),
       child: _Addprofiles(),
     );
   }
@@ -42,7 +42,7 @@ class _Addprofiles extends StatelessWidget {
                     prov.resetSelection();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 216, 141, 27),
+                    backgroundColor: const Color.fromARGB(255, 216, 141, 27),
                   ),
                   child: const Text('Annuler'),
                 ),

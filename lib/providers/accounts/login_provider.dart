@@ -4,19 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
+import 'package:my_chat_app/providers/accounts/auth_provider.dart';
 import 'package:my_chat_app/utils/localizations_helper.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../pages/widgets/formz.dart';
 import '../../utils/constants.dart';
-import '../../utils/supabase_constants.dart';
 
 class LoginProvider with ChangeNotifier {
   final formKey = GlobalKey<FormState>();
-//formz
+
   bool isLoading = false;
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
   late MyForm state;
+
+  AuthProvider? get authProvider => AuthProvider();
 
   LoginProvider.initialize() {
     state = MyForm();
@@ -43,10 +45,11 @@ class LoginProvider with ChangeNotifier {
     state = state.copyWith(status: FormzSubmissionStatus.inProgress);
 
     try {
-      await supabase.auth.signInWithPassword(
-        email: emailController.text,
-        password: passwordController.text,
+      authProvider!.login(
+        emailController.text,
+        passwordController.text,
       );
+
       isLoading = true;
       state = state.copyWith(status: FormzSubmissionStatus.success);
 
@@ -59,17 +62,20 @@ class LoginProvider with ChangeNotifier {
       isLoading = false;
     } catch (_) {
       log(_.toString());
-      ErrorSnackBar(message: unexpectedErrorMessage);
+      const ErrorSnackBar(message: unexpectedErrorMessage);
       isLoading = false;
     }
 
     final successSnackBar = SnackBar(
+      // ignore: use_build_context_synchronously
       content: Text(LocalizationsHelper.msgs(context).submittedSuccessfully),
     );
     final failureSnackBar = SnackBar(
+      // ignore: use_build_context_synchronously
       content: Text(LocalizationsHelper.msgs(context).somethingWentWrong),
     );
 
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(

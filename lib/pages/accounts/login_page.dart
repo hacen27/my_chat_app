@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/providers/accounts/loginprovider.dart';
+import 'package:my_chat_app/providers/accounts/login_provider.dart';
 import 'package:my_chat_app/utils/constants.dart';
 import 'package:my_chat_app/utils/localizations_helper.dart';
 import 'package:provider/provider.dart';

@@ -12,9 +12,10 @@ class AppLanguage {
     ];
   }
 
-  bool operator ==(dynamic other) =>
-      other != null && other is AppLanguage && this.name == other.name;
+  // @override
+  // bool operator ==(dynamic other) =>
+  //     other != null && other is AppLanguage && name == other.name;
 
-  @override
-  int get hashCode => super.hashCode;
+  // @override
+  // int get hashCode => super.hashCode;
 }

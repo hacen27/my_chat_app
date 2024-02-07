@@ -23,9 +23,11 @@ class SplashPageState extends State<SplashPage> {
 
     final session = supabase.auth.currentSession;
     if (session == null) {
+      // ignore: use_build_context_synchronously
       Navigator.pushNamedAndRemoveUntil(
           context, RegisterPage.path, (route) => false);
     } else {
+      // ignore: use_build_context_synchronously
       Navigator.pushNamedAndRemoveUntil(
           context, ConversationsPage.path, (route) => false);
     }

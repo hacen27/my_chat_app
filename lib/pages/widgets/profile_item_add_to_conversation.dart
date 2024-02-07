@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:my_chat_app/models/profile.dart';
 
 class ProfileItemAddToConversation extends StatelessWidget {
-  late Profile? profile;
-  Future<void> Function()? newConversation;
+  final Profile? profile;
+
   final bool isSelected;
-  ProfileItemAddToConversation(
-      {Key? key,
-      required this.profile,
-      this.newConversation,
-      this.isSelected = false})
-      : super(key: key);
+
+  const ProfileItemAddToConversation({
+    Key? key,
+    required this.profile,
+    this.isSelected = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class ProfileItemAddToConversation extends StatelessWidget {
                 ),
               Text(profile!.username),
             ],
-          )
+          ),
         ],
       ),
     );

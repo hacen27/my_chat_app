@@ -5,7 +5,7 @@ import 'package:my_chat_app/pages/widgets/profile_item.dart';
 import 'package:my_chat_app/utils/localizations_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart';
-import '../providers/coversationprovider.dart';
+import '../providers/coversation_provider.dart';
 
 class ConversationsPage extends StatelessWidget {
   static const path = "/conversation";
@@ -16,12 +16,12 @@ class ConversationsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => CoversationProvider(),
-        child: _ConversationsPage());
+        child: const _ConversationsPage());
   }
 }
 
 class _ConversationsPage extends StatelessWidget {
-  const _ConversationsPage({super.key});
+  const _ConversationsPage();
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +49,14 @@ class _ConversationsPage extends StatelessWidget {
                     onTap: () => {
                       Navigator.pushNamed(context, ChatPage.path,
                           arguments: Arguments(
-                              Id: conversation.conversationId,
+                              id: conversation.conversationId,
                               title: conversation.conversation.title)),
                     },
                     title: ProfileItem(
                       title: conversation.conversation.title,
                     ),
-                    subtitle: Text('  ' +
-                        '${format(conversation.createdAt, locale: 'en_short')}'),
+                    subtitle: Text(
+                        '  ${format(conversation.createdAt, locale: 'en_short')}'),
                   );
                 },
               )

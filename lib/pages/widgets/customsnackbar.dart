@@ -29,7 +29,7 @@ class CustomSnackBar extends StatelessWidget {
 }
 
 class ErrorSnackBar extends CustomSnackBar {
-  ErrorSnackBar({
+  const ErrorSnackBar({
     Key? key,
     required String message,
   }) : super(key: key, message: message, backgroundColor: Colors.red);

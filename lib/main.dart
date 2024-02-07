@@ -8,7 +8,8 @@ import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:my_chat_app/pages/accounts/login_page.dart';
 import 'package:my_chat_app/pages/accounts/register_page.dart';
 import 'package:my_chat_app/pages/widgets/apptheme.dart';
-import 'package:my_chat_app/providers/LocalProvider.dart';
+import 'package:my_chat_app/providers/localeprovider.dart';
+
 import 'package:my_chat_app/utils/supabase_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
           initialRoute: SplashPage.path,
           routes: {
             SplashPage.path: (context) => const SplashPage(),
-            ChatPage.path: (context) => ChatPage(),
+            ChatPage.path: (context) => const ChatPage(),
             LoginPage.path: (context) => const LoginPage(),
             RegisterPage.path: (context) => const RegisterPage(),
             ConversationsPage.path: (context) => const ConversationsPage(),

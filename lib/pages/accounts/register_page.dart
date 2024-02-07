@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/accounts/login_page.dart';
-import 'package:my_chat_app/providers/localprovider.dart';
+import 'package:my_chat_app/providers/localeprovider.dart';
 import 'package:my_chat_app/utils/constants.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/appLonguages.dart';
+import '../../models/app_language.dart';
 
-import '../../providers/accounts/registerprovider.dart';
+import '../../providers/accounts/register_provider.dart';
 import '../../utils/localizations_helper.dart';
 import '../../utils/validator.dart';
 
@@ -25,7 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final AppValidator vald = AppValidator();
   late String currentDefaultSystemLocale;
   int selectedLangIndex = 0;
-  var _appLocale;
+  late LocaleProvider _appLocale;
 
   late AppLanguage dropdownValue;
   @override
@@ -54,19 +54,19 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   int _getLangIndex(String currentDefaultSystemLocale) {
-    int _langIndex = 0;
+    int langIndex = 0;
     switch (currentDefaultSystemLocale) {
       case 'en':
-        _langIndex = 0;
+        langIndex = 0;
         break;
       case 'fr':
-        _langIndex = 1;
+        langIndex = 1;
         break;
       case 'ar':
-        _langIndex = 2;
+        langIndex = 2;
         break;
     }
-    return _langIndex;
+    return langIndex;
   }
 
   @override

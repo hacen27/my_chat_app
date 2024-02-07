@@ -5,9 +5,7 @@ import 'package:my_chat_app/utils/supabase_constants.dart';
 class ProfileServices {
   final AuthProvider authProvider = AuthProvider();
 
-  Future<List<Profile>> allprofiles() async {
-    final myId = authProvider.getUser()!.id;
-
+  Future<List<Profile>> allprofiles(String myId) async {
     final data = await supabase
         .from('profile')
         .select('id, username,created_at')
@@ -17,14 +15,11 @@ class ProfileServices {
 
   Future<List<ProfileParticipant>> getprofilesPByconId(
       String conversationId) async {
-    // final myId = supabase.auth.currentUser!.id;
-
     final data = await supabase
         .from('conversation_participant')
         .select('profile:profile!inner(*)')
         .eq('conversation_id,', conversationId)
         .order('created_at', ascending: false);
-    print(data);
 
     return data.map((pp) => ProfileParticipant.fromJson(pp)).toList();
   }
@@ -36,9 +31,9 @@ class ProfileServices {
         .eq('conversation_id,', conversationId);
 
     List iDs = [];
-    profileIds.forEach((profile) {
+    for (var profile in profileIds) {
       iDs.add(profile['profile_id']);
-    });
+    }
 
     final data = await supabase
         .from('profile')
@@ -67,8 +62,7 @@ class ProfileServices {
     return conversationdata;
   }
 
-  Future<void> quitConversation(String coversationId) async {
-    final myId = authProvider.getUser()!.id;
+  Future<void> quitConversation(String coversationId, String myId) async {
     await supabase
         .from('conversation_participant')
         .delete()

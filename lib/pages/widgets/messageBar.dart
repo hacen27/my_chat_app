@@ -7,8 +7,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../utils/constants.dart';
 
 class MessageBar extends StatefulWidget {
-  String conversationId;
-  MessageBar({
+  final String conversationId;
+  const MessageBar({
     required this.conversationId,
     Key? key,
   }) : super(key: key);
@@ -51,7 +51,7 @@ class MessageBarState extends State<MessageBar> {
                     hintText: LocalizationsHelper.msgs(context).typeMessage,
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.all(8),
+                    contentPadding: const EdgeInsets.all(8),
                   ),
                 ),
               ),
@@ -77,7 +77,7 @@ class MessageBarState extends State<MessageBar> {
 
     try {
       final myId = supabase.auth.currentUser!.id;
-      final send_name = await supabase
+      final sendName = await supabase
           .from('profile')
           .select('username')
           .eq('id', myId)
@@ -87,14 +87,12 @@ class MessageBarState extends State<MessageBar> {
         'content': text,
         'conversation_id': conversationId,
         'send_id': myId,
-        'send_name': send_name['username'],
+        'send_name': sendName['username'],
       });
     } on PostgrestException catch (error) {
       ErrorSnackBar(message: error.message);
     } catch (_) {
-      ErrorSnackBar(message: unexpectedErrorMessage);
+      const ErrorSnackBar(message: unexpectedErrorMessage);
     }
   }
 }
-
-// Assurez-vous d'avoir la classe LocalizationsHelper définie ailleurs dans votre code.

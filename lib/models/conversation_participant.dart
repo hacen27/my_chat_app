@@ -18,15 +18,6 @@ class ConversationParticpant {
         createdAt: DateTime.parse(json['created_at']),
         conversation: Conversation.fromJson(json['conversation']));
   }
-
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     'id': id,
-  //     'created_at': createdAt.toIso8601String(),
-  //     'messages': messages.map((message) => message.toJson()).toList(),
-  //     'profiles': profiles.toJson(),
-  //   };
-  // }
 }
 
 class Conversation {

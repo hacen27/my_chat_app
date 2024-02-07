@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
+import 'package:my_chat_app/providers/accounts/auth_provider.dart';
 import 'package:my_chat_app/services/coversation_services.dart';
 import 'package:my_chat_app/services/profile_services.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/profile.dart';
 
@@ -21,6 +23,7 @@ class ProfileProvider with ChangeNotifier {
   bool isComplet = false;
   final ProfileServices _profileServices = ProfileServices();
   final CoversationServices _coversationServices = CoversationServices();
+  User? get currentUser => AuthProvider().getUser();
 
   ProfileProvider() {
     initializeData();
@@ -83,7 +86,7 @@ class ProfileProvider with ChangeNotifier {
   }
 
   Future<void> getAllprofile() async {
-    final profileMaps = await _profileServices.allprofiles();
+    final profileMaps = await _profileServices.allprofiles(currentUser!.id);
 
     searchFonProfiles = allProfiles = profileMaps;
     notifyListeners();
@@ -92,7 +95,7 @@ class ProfileProvider with ChangeNotifier {
   Future<void> addtoConversation() async {
     try {
       await _coversationServices.newConversation(
-          profilIds, textTitleController.text);
+          profilIds, textTitleController.text, currentUser!.id);
     } catch (err) {
       ErrorSnackBar(message: err.toString());
     }

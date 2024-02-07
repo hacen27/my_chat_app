@@ -1,15 +1,15 @@
 import 'package:my_chat_app/models/conversations.dart';
 import 'package:my_chat_app/providers/accounts/auth_provider.dart';
 
-import '../models/conversationParticipant.dart';
+import '../models/conversation_participant.dart';
 import '../utils/supabase_constants.dart';
 
 class CoversationServices {
   final AuthProvider authProvider = AuthProvider();
   Newconversation? newconversation;
 
-  Future<dynamic> newConversation(List<String> profileIds, String title) async {
-    final myId = authProvider.getUser()!.id;
+  Future<dynamic> newConversation(
+      List<String> profileIds, String title, String myId) async {
     final conversation =
         await supabase.from('conversation').insert({'title': title}).select();
 
@@ -32,9 +32,8 @@ class CoversationServices {
     return conversationdata;
   }
 
-  Future<List<ConversationParticpant>> conversationParticipant() async {
-    final myId = authProvider.getUser()!.id;
-
+  Future<List<ConversationParticpant>> conversationParticipant(
+      String myId) async {
     final data = await supabase
         .from('conversation_participant')
         .select('id, created_at, conversation_id, conversation!inner(title)')

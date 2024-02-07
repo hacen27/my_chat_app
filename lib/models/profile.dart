@@ -36,8 +36,6 @@ class Profile {
         createdAt = DateTime.parse(map['created_at']);
 }
 
-final Map<String, Profile> _profileCache = {};
-
 class ProfileParticipant {
   late Profile profile;
   ProfileParticipant({required this.profile});

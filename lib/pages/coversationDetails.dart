@@ -5,7 +5,7 @@ import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:my_chat_app/utils/localizations_helper.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/coversationDetailsProvider.dart';
+import '../providers/coversation_details_provider.dart';
 
 class ConversationDetails extends StatelessWidget {
   static const path = "/ProfilConversation";
@@ -17,7 +17,7 @@ class ConversationDetails extends StatelessWidget {
     final arguments = ModalRoute.of(context)!.settings.arguments as Arguments;
     return ChangeNotifierProvider(
         create: (context) =>
-            CoversationDetailsProvider(conversationId: arguments.Id),
+            CoversationDetailsProvider(conversationId: arguments.id),
         child: _ConversationDetails());
   }
 }
@@ -52,7 +52,7 @@ class _ConversationDetails extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, Addprofiles.path,
                       arguments:
-                          Arguments(Id: arguments.Id, title: arguments.title));
+                          Arguments(id: arguments.id, title: arguments.title));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent,

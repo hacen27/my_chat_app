@@ -19,7 +19,7 @@ class ProfileItem extends StatelessWidget {
             CircleAvatar(
               radius: 30,
               child: Text(
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
                 (title.toUpperCase().substring(0, 1)),
               ),
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
-import 'package:my_chat_app/pages/widgets/profileitemaddtoconversation.dart';
+import 'package:my_chat_app/pages/widgets/profile_item_add_to_conversation.dart';
 import 'package:provider/provider.dart';
 import '../providers/profileProvider.dart';
 import '../utils/localizations_helper.dart';
@@ -142,7 +142,8 @@ class _ProfilesScreen extends StatelessWidget {
                       fillColor: Colors.blue,
                       hintText: LocalizationsHelper.msgs(context)
                           .conversationTitlePlaceholder,
-                      hintStyle: TextStyle(color: Colors.black, fontSize: 18),
+                      hintStyle:
+                          const TextStyle(color: Colors.black, fontSize: 18),
                     ),
                     style: const TextStyle(color: Colors.black, fontSize: 18),
                     //    onSubmitted: (){
@@ -168,7 +169,7 @@ class _ProfilesScreen extends StatelessWidget {
                         }
                       },
                       child: Text(LocalizationsHelper.msgs(context).addButton,
-                          style: TextStyle(fontSize: 20)))
+                          style: const TextStyle(fontSize: 20)))
                 ],
               ),
             ),
