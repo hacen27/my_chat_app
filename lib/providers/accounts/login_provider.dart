@@ -58,29 +58,32 @@ class LoginProvider with ChangeNotifier {
             context, ConversationsPage.path, (route) => false);
       }
     } on AuthException catch (error) {
-      ErrorSnackBar(message: error.message);
+      log(error.toString());
+      ErrorSnackBar(message: error.message).show(context);
+
       isLoading = false;
     } catch (_) {
       log(_.toString());
-      const ErrorSnackBar(message: unexpectedErrorMessage);
+      const ErrorSnackBar(message: unexpectedErrorMessage).show(context);
+
       isLoading = false;
     }
 
-    final successSnackBar = SnackBar(
-      // ignore: use_build_context_synchronously
-      content: Text(LocalizationsHelper.msgs(context).submittedSuccessfully),
-    );
-    final failureSnackBar = SnackBar(
-      // ignore: use_build_context_synchronously
-      content: Text(LocalizationsHelper.msgs(context).somethingWentWrong),
-    );
+    // final successSnackBar = SnackBar(
+    //   // ignore: use_build_context_synchronously
+    //   content: Text(LocalizationsHelper.msgs(context).submittedSuccessfully),
+    // );
+    // final failureSnackBar = SnackBar(
+    //   // ignore: use_build_context_synchronously
+    //   content: Text(LocalizationsHelper.msgs(context).somethingWentWrong),
+    // );
 
-    // ignore: use_build_context_synchronously
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        state.status.isSuccess ? successSnackBar : failureSnackBar,
-      );
+    // // ignore: use_build_context_synchronously
+    // ScaffoldMessenger.of(context)
+    //   ..hideCurrentSnackBar()
+    //   ..showSnackBar(
+    //     state.status.isSuccess ? successSnackBar : failureSnackBar,
+    //   );
 
     notifyListeners();
   }

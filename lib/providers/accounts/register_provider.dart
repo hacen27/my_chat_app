@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
@@ -25,14 +27,14 @@ class RegisterProvider with ChangeNotifier {
     final username = usernameController.text;
     try {
       await authProvider!.signUp(email, password, username);
-
       // ignore: use_build_context_synchronously
       Navigator.pushNamedAndRemoveUntil(
           context, ConversationsPage.path, (route) => false);
     } on AuthException catch (error) {
-      ErrorSnackBar(message: error.message);
-    } catch (error) {
-      const ErrorSnackBar(message: unexpectedErrorMessage);
+      log(error.toString());
+      ErrorSnackBar(message: error.message).show(context);
+    } catch (_) {
+      const ErrorSnackBar(message: unexpectedErrorMessage).show(context);
     }
     notifyListeners();
   }
