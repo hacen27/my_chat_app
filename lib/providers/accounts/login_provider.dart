@@ -18,9 +18,9 @@ class LoginProvider with ChangeNotifier {
   late final TextEditingController passwordController;
   late MyForm state;
 
-  AuthProvider? get authProvider => AuthProvider();
+  AuthProvider get authProvider => AuthProvider();
 
-  LoginProvider.initialize() {
+  LoginProvider() {
     state = MyForm();
     emailController = TextEditingController(text: state.email.value)
       ..addListener(_onEmailChanged);
