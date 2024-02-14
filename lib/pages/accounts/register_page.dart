@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 
 import '../../models/app_language.dart';
 
-import '../../providers/accounts/register_provider.dart';
+import '../../providers/account/register_provider.dart';
+
 import '../../utils/localizations_helper.dart';
 import '../../utils/validator.dart';
 

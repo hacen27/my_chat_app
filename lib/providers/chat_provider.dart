@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/models/message.dart';
 import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
-import 'package:my_chat_app/providers/accounts/auth_provider.dart';
+import 'package:my_chat_app/providers/account/auth_provider.dart';
 
 import 'package:my_chat_app/services/chat_services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -38,7 +39,7 @@ class ChatProvider with ChangeNotifier {
     );
   }
 
-  Future<void> submitMessage() async {
+  Future<void> submitMessage(BuildContext context) async {
     final text = textController.text;
 
     if (text.isEmpty) {
@@ -48,13 +49,13 @@ class ChatProvider with ChangeNotifier {
     textController.clear();
 
     try {
-      print("Started Function");
       await _chatServices.submitMessg(conversationId, currentUser!.id, text);
-      print("fin Function");
     } on PostgrestException catch (error) {
-      ErrorSnackBar(message: error.message);
+      log(error.toString());
+      ErrorSnackBar(message: error.message).show(context);
     } catch (err) {
-      ErrorSnackBar(message: err.toString());
+      log(err.toString());
+      ErrorSnackBar(message: err.toString()).show(context);
     }
   }
 

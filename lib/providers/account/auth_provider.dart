@@ -2,9 +2,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthProvider {
   final _client = Supabase.instance.client;
-  static final AuthProvider _instance = AuthProvider._internal();
+  static final AuthProvider _instance = AuthProvider._singleton();
 
-  AuthProvider._internal();
+  AuthProvider._singleton();
 
   factory AuthProvider() {
     return _instance;

@@ -9,7 +9,6 @@ import 'package:my_chat_app/pages/accounts/login_page.dart';
 import 'package:my_chat_app/pages/accounts/register_page.dart';
 import 'package:my_chat_app/pages/widgets/apptheme.dart';
 import 'package:my_chat_app/providers/localeprovider.dart';
-
 import 'package:my_chat_app/utils/supabase_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

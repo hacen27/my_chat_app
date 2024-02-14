@@ -40,7 +40,7 @@ class _ConversationsPage extends StatelessWidget {
             ),
           ],
         ),
-        body: provider.loading
+        body: provider.hasConnection
             ? ListView.builder(
                 itemCount: provider.conversationsParticipant.length,
                 itemBuilder: (context, index) {
@@ -61,7 +61,7 @@ class _ConversationsPage extends StatelessWidget {
                 },
               )
             : const Center(
-                child: CircularProgressIndicator(),
+                child: Text("pas d'internet"),
               ));
   }
 }

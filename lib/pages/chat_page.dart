@@ -15,7 +15,6 @@ class ChatPage extends StatefulWidget {
 
   const ChatPage({
     Key? key,
-    // required this.args,
   }) : super(key: key);
 
   @override
@@ -93,7 +92,7 @@ class _ChatPageState extends State<ChatPage> {
                 MessageBar(
                   textController: chtPro.textController,
                   onSubmit: () {
-                    chtPro.submitMessage();
+                    chtPro.submitMessage(context);
                   },
                 ),
               ],

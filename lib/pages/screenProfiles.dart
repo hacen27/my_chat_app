@@ -20,6 +20,7 @@ class _ProfilesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final prov = context.watch<ProfileProvider>();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.amber,
@@ -146,9 +147,6 @@ class _ProfilesScreen extends StatelessWidget {
                           const TextStyle(color: Colors.black, fontSize: 18),
                     ),
                     style: const TextStyle(color: Colors.black, fontSize: 18),
-                    //    onSubmitted: (){
-                    //       prov.addtoConversation();
-                    //     },
                   ),
                   const SizedBox(
                     height: 100,

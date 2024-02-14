@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
-import 'package:my_chat_app/providers/accounts/auth_provider.dart';
-import 'package:my_chat_app/utils/localizations_helper.dart';
+import 'package:my_chat_app/providers/account/auth_provider.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../pages/widgets/formz.dart';
 import '../../utils/constants.dart';
+import '../../utils/error_handling.dart';
 
 class LoginProvider with ChangeNotifier {
   final formKey = GlobalKey<FormState>();
@@ -45,7 +46,7 @@ class LoginProvider with ChangeNotifier {
     state = state.copyWith(status: FormzSubmissionStatus.inProgress);
 
     try {
-      await authProvider!.login(
+      await authProvider.login(
         emailController.text,
         passwordController.text,
       );
@@ -59,12 +60,13 @@ class LoginProvider with ChangeNotifier {
       }
     } on AuthException catch (error) {
       log(error.toString());
-      ErrorSnackBar(message: error.message).show(context);
+      print(error.statusCode);
+      ErrorHandling.handleError(error, context);
 
       isLoading = false;
     } catch (_) {
       log(_.toString());
-      const ErrorSnackBar(message: unexpectedErrorMessage).show(context);
+      ErrorHandling.handleError(_, context);
 
       isLoading = false;
     }

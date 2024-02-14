@@ -1,3 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:my_chat_app/pages/accounts/register_page.dart';
@@ -20,16 +24,17 @@ class SplashPageState extends State<SplashPage> {
 
   Future<void> _redirect() async {
     await Future.delayed(Duration.zero);
-
-    final session = supabase.auth.currentSession;
-    if (session == null) {
-      // ignore: use_build_context_synchronously
-      Navigator.pushNamedAndRemoveUntil(
-          context, RegisterPage.path, (route) => false);
-    } else {
-      // ignore: use_build_context_synchronously
-      Navigator.pushNamedAndRemoveUntil(
-          context, ConversationsPage.path, (route) => false);
+    try {
+      final session = supabase.auth.currentSession;
+      if (session == null) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, RegisterPage.path, (route) => false);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, ConversationsPage.path, (route) => false);
+      }
+    } catch (e) {
+      print('Error during redirection: $e');
     }
   }
 

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
-import 'package:my_chat_app/providers/accounts/auth_provider.dart';
+import 'package:my_chat_app/providers/account/auth_provider.dart';
 import 'package:my_chat_app/services/coversation_services.dart';
 import 'package:my_chat_app/services/profile_services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

@@ -1,11 +1,9 @@
 import 'package:my_chat_app/models/conversations.dart';
-import 'package:my_chat_app/providers/accounts/auth_provider.dart';
 
 import '../models/conversation_participant.dart';
 import '../utils/supabase_constants.dart';
 
 class CoversationServices {
-  final AuthProvider authProvider = AuthProvider();
   Newconversation? newconversation;
 
   Future<dynamic> newConversation(
