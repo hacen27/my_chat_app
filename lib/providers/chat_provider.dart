@@ -13,17 +13,17 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class ChatProvider with ChangeNotifier {
   final String conversationId;
   List<Message> _messages = [];
-  late BuildContext context;
+
   List<Message> get messages => _messages;
 
   User? get currentUser => AuthProvider().getUser();
 
   final ChatServices _chatServices = ChatServices();
   late final StreamSubscription<List<Message>> _messagesSubscription;
-
+  final BuildContext context;
   final textController = TextEditingController();
 
-  ChatProvider({required this.conversationId}) {
+  ChatProvider({required this.conversationId, required this.context}) {
     myMessages();
   }
 
@@ -40,7 +40,7 @@ class ChatProvider with ChangeNotifier {
     );
   }
 
-  Future<void> submitMessage(BuildContext context) async {
+  Future<void> submitMessage() async {
     final text = textController.text;
 
     if (text.isEmpty) {

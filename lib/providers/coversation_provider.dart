@@ -18,8 +18,8 @@ class CoversationProvider with ChangeNotifier {
   final CoversationServices _webservices = CoversationServices();
   final ConnectivityService _checkinternet = ConnectivityService();
   User? get currentUser => AuthProvider().getUser();
-  late BuildContext context;
-  CoversationProvider() {
+  final BuildContext context;
+  CoversationProvider({required this.context}) {
     getAllconversationParticipant();
   }
 

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
 import 'package:my_chat_app/providers/account/auth_provider.dart';
 import 'package:my_chat_app/services/coversation_services.dart';
 import 'package:my_chat_app/services/profile_services.dart';
@@ -14,7 +13,7 @@ import '../models/profile.dart';
 class ProfileProvider with ChangeNotifier {
   List<Profile> allProfiles = [];
   List<Profile> searchFonProfiles = [];
-  late BuildContext context;
+
   String conversationId = '';
 
   List<String> profilIds = [];
@@ -27,7 +26,8 @@ class ProfileProvider with ChangeNotifier {
   final CoversationServices _coversationServices = CoversationServices();
   User? get currentUser => AuthProvider().getUser();
 
-  ProfileProvider() {
+  final BuildContext context;
+  ProfileProvider({required this.context}) {
     initializeData();
   }
 

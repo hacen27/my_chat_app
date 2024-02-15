@@ -15,7 +15,7 @@ class ConversationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => CoversationProvider(),
+        create: (context) => CoversationProvider(context: context),
         child: const _ConversationsPage());
   }
 }

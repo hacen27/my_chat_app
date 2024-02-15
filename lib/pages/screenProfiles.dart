@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:my_chat_app/pages/widgets/profile_item_add_to_conversation.dart';
+import 'package:my_chat_app/providers/profileprovider.dart';
 import 'package:provider/provider.dart';
-import '../providers/profileProvider.dart';
 import '../utils/localizations_helper.dart';
 
 class ProfilesScreen extends StatelessWidget {
@@ -12,7 +12,8 @@ class ProfilesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => ProfileProvider(), child: _ProfilesScreen());
+        create: (context) => ProfileProvider(context: context),
+        child: _ProfilesScreen());
   }
 }
 

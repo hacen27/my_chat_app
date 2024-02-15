@@ -35,7 +35,7 @@ class _ChatPageState extends State<ChatPage> {
     final id = arguments.id;
     final title = arguments.title;
     return ChangeNotifierProvider(
-      create: (context) => ChatProvider(conversationId: id),
+      create: (context) => ChatProvider(conversationId: id, context: context),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -92,7 +92,7 @@ class _ChatPageState extends State<ChatPage> {
                 MessageBar(
                   textController: chtPro.textController,
                   onSubmit: () {
-                    chtPro.submitMessage(context);
+                    chtPro.submitMessage();
                   },
                 ),
               ],

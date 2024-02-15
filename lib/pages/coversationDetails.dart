@@ -16,8 +16,8 @@ class ConversationDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments = ModalRoute.of(context)!.settings.arguments as Arguments;
     return ChangeNotifierProvider(
-        create: (context) =>
-            CoversationDetailsProvider(conversationId: arguments.id),
+        create: (context) => CoversationDetailsProvider(
+            conversationId: arguments.id, context: context),
         child: _ConversationDetails());
   }
 }

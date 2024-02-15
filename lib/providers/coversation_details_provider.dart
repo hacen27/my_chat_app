@@ -12,12 +12,13 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class CoversationDetailsProvider with ChangeNotifier {
   List<Profile> profiles = [];
   List<ProfileParticipant> profileParticipant = [];
-  late BuildContext context;
+  final BuildContext context;
   final ProfileServices _webservices = ProfileServices();
   final String conversationId;
   User? get currentUser => AuthProvider().getUser();
 
-  CoversationDetailsProvider({required this.conversationId}) {
+  CoversationDetailsProvider(
+      {required this.conversationId, required this.context}) {
     getProfilData();
   }
 
