@@ -94,16 +94,19 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addtoConversation() async {
+  Future<bool> addtoConversation() async {
     try {
       await _coversationServices.newConversation(
           profilIds, textTitleController.text, currentUser!.id);
+      return true;
     } on PostgrestException catch (error) {
       log(error.toString());
       ErrorHandling.handlePostgresError(error, context);
+      return false;
     } catch (err) {
       log(err.toString());
       ErrorHandling.handlePostgresError(err, context);
+      return false;
     }
   }
 }

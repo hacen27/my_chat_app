@@ -78,10 +78,9 @@ class ErrorHandling {
     if (error is AuthException) {
       statusCode = error.statusCode;
 
-      // Traitement des codes d'état connus
       switch (statusCode) {
         case '400':
-          message = "Invalid login credentials. L'email est déjà utilisé.";
+          message = "Invalid login credentials.";
           break;
         case '401':
           message = "Session expirée. Veuillez vous reconnecter.";
@@ -114,7 +113,6 @@ class ErrorHandling {
     if (error is AuthException) {
       statusCode = error.statusCode;
 
-      // Traitement des codes d'état connus
       switch (statusCode) {
         case '400':
           message = "L'email est déjà utilisé.";

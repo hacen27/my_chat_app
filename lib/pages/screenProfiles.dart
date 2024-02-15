@@ -157,9 +157,9 @@ class _ProfilesScreen extends StatelessWidget {
                           foregroundColor: Colors.white,
                           elevation: 2,
                           backgroundColor: Colors.amber),
-                      onPressed: () {
-                        prov.addtoConversation();
-                        if (context.mounted) {
+                      onPressed: () async {
+                        bool succes = await prov.addtoConversation();
+                        if (succes) {
                           Navigator.pushNamedAndRemoveUntil(
                             context,
                             ConversationsPage.path,
