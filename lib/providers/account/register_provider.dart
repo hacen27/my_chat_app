@@ -2,10 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
-import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
 import 'package:my_chat_app/providers/account/auth_provider.dart';
+import 'package:my_chat_app/utils/error_handling.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../utils/constants.dart';
 
 class RegisterProvider with ChangeNotifier {
   final formKey = GlobalKey<FormState>();
@@ -32,10 +31,9 @@ class RegisterProvider with ChangeNotifier {
           context, ConversationsPage.path, (route) => false);
     } on AuthException catch (error) {
       log(error.toString());
-      print(error);
-      ErrorSnackBar(message: error.message).show(context);
+      ErrorHandling.signUpException(error, context);
     } catch (_) {
-      const ErrorSnackBar(message: unexpectedErrorMessage).show(context);
+      ErrorHandling.signUpException(_, context);
     }
     notifyListeners();
   }

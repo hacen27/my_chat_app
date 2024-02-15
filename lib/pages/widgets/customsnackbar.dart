@@ -28,9 +28,24 @@ class CustomSnackBar extends StatelessWidget {
   }
 }
 
-class ErrorSnackBar extends CustomSnackBar {
-  const ErrorSnackBar({
-    Key? key,
-    required String message,
-  }) : super(key: key, message: message, backgroundColor: Colors.red);
+class ErrorSnackBar extends StatelessWidget {
+  final String message;
+
+  const ErrorSnackBar({Key? key, required this.message}) : super(key: key);
+
+  void show(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 4),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Ce widget ne sert que de porteur pour la méthode show, donc il ne construit rien.
+    return Container();
+  }
 }

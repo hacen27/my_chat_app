@@ -3,16 +3,17 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/models/message.dart';
-import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
+
 import 'package:my_chat_app/providers/account/auth_provider.dart';
 
 import 'package:my_chat_app/services/chat_services.dart';
+import 'package:my_chat_app/utils/error_handling.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ChatProvider with ChangeNotifier {
   final String conversationId;
   List<Message> _messages = [];
-
+  late BuildContext context;
   List<Message> get messages => _messages;
 
   User? get currentUser => AuthProvider().getUser();
@@ -34,7 +35,7 @@ class ChatProvider with ChangeNotifier {
         notifyListeners();
       },
       onError: (err) {
-        ErrorSnackBar(message: err.toString());
+        ErrorHandling.handlePostgresError(err, context);
       },
     );
   }
@@ -52,10 +53,10 @@ class ChatProvider with ChangeNotifier {
       await _chatServices.submitMessg(conversationId, currentUser!.id, text);
     } on PostgrestException catch (error) {
       log(error.toString());
-      ErrorSnackBar(message: error.message).show(context);
+      ErrorHandling.handlePostgresError(error, context);
     } catch (err) {
       log(err.toString());
-      ErrorSnackBar(message: err.toString()).show(context);
+      ErrorHandling.handlePostgresError(err, context);
     }
   }
 

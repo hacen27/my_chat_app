@@ -3,12 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
-import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
 import 'package:my_chat_app/providers/account/auth_provider.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../pages/widgets/formz.dart';
-import '../../utils/constants.dart';
 import '../../utils/error_handling.dart';
 
 class LoginProvider with ChangeNotifier {
@@ -60,32 +58,16 @@ class LoginProvider with ChangeNotifier {
       }
     } on AuthException catch (error) {
       log(error.toString());
-      print(error.statusCode);
-      ErrorHandling.handleError(error, context);
+
+      ErrorHandling.signInException(error, context);
 
       isLoading = false;
     } catch (_) {
       log(_.toString());
-      ErrorHandling.handleError(_, context);
+      ErrorHandling.signInException(_, context);
 
       isLoading = false;
     }
-
-    // final successSnackBar = SnackBar(
-    //   // ignore: use_build_context_synchronously
-    //   content: Text(LocalizationsHelper.msgs(context).submittedSuccessfully),
-    // );
-    // final failureSnackBar = SnackBar(
-    //   // ignore: use_build_context_synchronously
-    //   content: Text(LocalizationsHelper.msgs(context).somethingWentWrong),
-    // );
-
-    // // ignore: use_build_context_synchronously
-    // ScaffoldMessenger.of(context)
-    //   ..hideCurrentSnackBar()
-    //   ..showSnackBar(
-    //     state.status.isSuccess ? successSnackBar : failureSnackBar,
-    //   );
 
     notifyListeners();
   }
