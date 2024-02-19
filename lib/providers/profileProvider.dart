@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:my_chat_app/providers/account/auth_provider.dart';
 import 'package:my_chat_app/services/coversation_services.dart';
 import 'package:my_chat_app/services/profile_services.dart';
-import 'package:my_chat_app/utils/error_handling.dart';
+import 'package:my_chat_app/utils/exception_catch.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/profile.dart';
@@ -95,18 +95,11 @@ class ProfileProvider with ChangeNotifier {
   }
 
   Future<bool> addtoConversation() async {
-    try {
-      await _coversationServices.newConversation(
-          profilIds, textTitleController.text, currentUser!.id);
-      return true;
-    } on PostgrestException catch (error) {
-      log(error.toString());
-      ErrorHandling.handlePostgresError(error, context);
-      return false;
-    } catch (err) {
-      log(err.toString());
-      ErrorHandling.handlePostgresError(err, context);
-      return false;
-    }
+    final response = await ExceptionCatch.catchErrors(
+        () => _coversationServices.newConversation(
+            profilIds, textTitleController.text, currentUser!.id),
+        context);
+
+    return !response.isError;
   }
 }

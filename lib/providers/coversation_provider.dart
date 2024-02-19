@@ -7,6 +7,7 @@ import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
 import 'package:my_chat_app/providers/account/auth_provider.dart';
 import 'package:my_chat_app/services/coversation_services.dart';
 import 'package:my_chat_app/utils/error_handling.dart';
+import 'package:my_chat_app/utils/exception_catch.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/conversation_participant.dart';
@@ -24,21 +25,16 @@ class CoversationProvider with ChangeNotifier {
   }
 
   Future<void> getAllconversationParticipant() async {
-    try {
-      _checkinternet.connectionChange.listen((connectionState) {
-        hasConnection = connectionState;
-        notifyListeners();
-      });
-      conversationsParticipant =
-          await _webservices.conversationParticipant(currentUser!.id);
-
+    _checkinternet.connectionChange.listen((connectionState) {
+      hasConnection = connectionState;
       notifyListeners();
-    } on PostgrestException catch (error) {
-      log(error.toString());
-      ErrorHandling.handlePostgresError(error, context);
-    } catch (err) {
-      log(err.toString());
-      ErrorHandling.handlePostgresError(err, context);
-    }
+    });
+
+    final response = await ExceptionCatch.catchErrors(
+        () => _webservices.conversationParticipant(currentUser!.id), context);
+
+    if (response.isError) return;
+
+    conversationsParticipant = response.result!;
   }
 }

@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_overrides
-
 class AppLanguage {
   final String name;
   final String languageCode;

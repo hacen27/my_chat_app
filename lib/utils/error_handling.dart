@@ -10,7 +10,6 @@ class ErrorHandling {
     String? code;
     if (error is PostgrestException) {
       code = error.code;
-
       switch (code) {
         case '01000':
           message = "Attention: Un avertissement a été émis.";
@@ -65,9 +64,6 @@ class ErrorHandling {
       }
 
       ErrorSnackBar(message: message).show(context);
-    } else {
-      message = "Veuillez vérifier votre connexion internet";
-      ErrorSnackBar(message: message).show(context);
     }
   }
 
@@ -100,9 +96,6 @@ class ErrorHandling {
       }
 
       ErrorSnackBar(message: message).show(context);
-    } else {
-      message = "Veuillez vérifier votre connexion internet.";
-      ErrorSnackBar(message: message).show(context);
     }
   }
 
@@ -133,9 +126,6 @@ class ErrorHandling {
           message = "Erreur AuthException non gérée: code $statusCode";
           break;
       }
-    } else {
-      message = "Veuillez vérifier votre connexion internet.";
-      ErrorSnackBar(message: message).show(context);
     }
   }
 }
