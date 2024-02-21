@@ -88,9 +88,9 @@ class ProfileProvider with ChangeNotifier {
   }
 
   Future<void> getAllprofile() async {
-    final profileMaps = await _profileServices.allprofiles(currentUser!.id);
-
-    searchFonProfiles = allProfiles = profileMaps;
+    final response = await ExceptionCatch.catchErrors(
+        () => _profileServices.allprofiles(currentUser!.id), context);
+    searchFonProfiles = allProfiles = response.result!;
     notifyListeners();
   }
 

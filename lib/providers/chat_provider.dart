@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/models/message.dart';
@@ -8,6 +9,7 @@ import 'package:my_chat_app/providers/account/auth_provider.dart';
 
 import 'package:my_chat_app/services/chat_services.dart';
 import 'package:my_chat_app/utils/error_handling.dart';
+import 'package:my_chat_app/utils/exception_catch.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ChatProvider with ChangeNotifier {
@@ -49,21 +51,15 @@ class ChatProvider with ChangeNotifier {
 
     textController.clear();
 
-    try {
-      await _chatServices.submitMessg(conversationId, currentUser!.id, text);
-    } on PostgrestException catch (error) {
-      log(error.toString());
-      ErrorHandling.handlePostgresError(error, context);
-    } catch (err) {
-      log(err.toString());
-      ErrorHandling.handlePostgresError(err, context);
-    }
-  }
+    await ExceptionCatch.catchErrors(
+        () => _chatServices.submitMessg(conversationId, currentUser!.id, text),
+        context);
 
-  @override
-  void dispose() {
-    _messagesSubscription.cancel();
-    textController.dispose();
-    super.dispose();
+    @override
+    void dispose() {
+      _messagesSubscription.cancel();
+      textController.dispose();
+      super.dispose();
+    }
   }
 }

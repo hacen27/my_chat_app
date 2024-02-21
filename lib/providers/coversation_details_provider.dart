@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/models/profile.dart';
 import 'package:my_chat_app/providers/account/auth_provider.dart';
 
 import 'package:my_chat_app/services/profile_services.dart';
-import 'package:my_chat_app/utils/error_handling.dart';
+import 'package:my_chat_app/utils/exception_catch.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CoversationDetailsProvider with ChangeNotifier {
@@ -23,28 +22,16 @@ class CoversationDetailsProvider with ChangeNotifier {
   }
 
   Future<void> getProfilData() async {
-    try {
-      final myprofiles = await _webservices.getprofilesPByconId(conversationId);
-      profileParticipant = myprofiles;
-      notifyListeners();
-    } on PostgrestException catch (error) {
-      log(error.toString());
-      ErrorHandling.handlePostgresError(error, context);
-    } catch (err) {
-      log(err.toString());
-      ErrorHandling.handlePostgresError(err, context);
-    }
+    final response = await ExceptionCatch.catchErrors(
+        () => _webservices.getprofilesPByconId(conversationId), context);
+    if (response.isError) return;
+    profileParticipant = response.result!;
+    notifyListeners();
   }
 
   deletProfile() async {
-    try {
-      await _webservices.quitConversation(conversationId, currentUser!.id);
-    } on PostgrestException catch (error) {
-      log(error.toString());
-      ErrorHandling.handlePostgresError(error, context);
-    } catch (err) {
-      log(err.toString());
-      ErrorHandling.handlePostgresError(err, context);
-    }
+    await ExceptionCatch.catchErrors(
+        () => _webservices.quitConversation(conversationId, currentUser!.id),
+        context);
   }
 }

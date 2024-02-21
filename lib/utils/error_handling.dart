@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import '../pages/widgets/customsnackbar.dart';
 
 class ErrorHandling {
+  // ClientException: XMLHttpRequest error., uri=https:…ername&id=eq.18597405-38f0-4fb3-b416-61fd77634c86
+  // ClientException with SocketException: Failed host lookup: 'uugohevjeqdxfcuyygvd.supabase.co' (OS Error: No address associated with hostname, errno = 7), uri=https://uugohevjeqdxfcuyygvd.supabase.co/rest/v1/profile?select=username&id=eq.18597405-38f0-4fb3-b416-61fd77634c86
   static void handlePostgresError(dynamic error, BuildContext context) {
     String message;
     String? code;

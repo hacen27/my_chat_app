@@ -12,7 +12,8 @@ class Addprofiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = ModalRoute.of(context)!.settings.arguments as Arguments;
+    final arguments =
+        ModalRoute.of(context)!.settings.arguments as ArgumentsChat;
 
     return ChangeNotifierProvider(
       create: (_) => AddlistprofilesProvider(conversationId: arguments.id),

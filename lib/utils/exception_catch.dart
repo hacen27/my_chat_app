@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:my_chat_app/pages/widgets/customsnackbar.dart';
 import 'package:my_chat_app/utils/error_handling.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -14,6 +17,10 @@ class ExceptionCatch {
       errorMessage = err.toString();
       if (err is PostgrestException) {
         ErrorHandling.handlePostgresError(err, context);
+      } else if (err is SocketException) {
+        const ErrorSnackBar(message: "Problème de connexion.").show(context);
+      } else {
+        const ErrorSnackBar(message: "Erreur non gérée.").show(context);
       }
 
       return ErrorHandlerResponse<T>(error: errorMessage);

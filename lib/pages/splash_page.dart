@@ -1,11 +1,8 @@
-// ignore_for_file: use_build_context_synchronously
-
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:my_chat_app/pages/accounts/register_page.dart';
 import 'package:my_chat_app/utils/constants.dart';
+
 import 'package:my_chat_app/utils/supabase_constants.dart';
 
 class SplashPage extends StatefulWidget {

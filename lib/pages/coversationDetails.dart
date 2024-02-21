@@ -14,7 +14,8 @@ class ConversationDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = ModalRoute.of(context)!.settings.arguments as Arguments;
+    final arguments =
+        ModalRoute.of(context)!.settings.arguments as ArgumentsChat;
     return ChangeNotifierProvider(
         create: (context) => CoversationDetailsProvider(
             conversationId: arguments.id, context: context),
@@ -25,7 +26,8 @@ class ConversationDetails extends StatelessWidget {
 class _ConversationDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final arguments = ModalRoute.of(context)!.settings.arguments as Arguments;
+    final arguments =
+        ModalRoute.of(context)!.settings.arguments as ArgumentsChat;
     final provideControleur = context.watch<CoversationDetailsProvider>();
 
     return Scaffold(
@@ -51,8 +53,8 @@ class _ConversationDetails extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, Addprofiles.path,
-                      arguments:
-                          Arguments(id: arguments.id, title: arguments.title));
+                      arguments: ArgumentsChat(
+                          id: arguments.id, title: arguments.title));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent,

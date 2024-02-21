@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_chat_app/app_router.dart';
 import 'package:my_chat_app/pages/addlistprofils.dart';
 import 'package:my_chat_app/pages/coversationdetails.dart';
 import 'package:my_chat_app/pages/screenprofiles.dart';
@@ -21,11 +22,14 @@ Future<void> main() async {
     url: SupabaseConstants.baseUrl,
     anonKey: SupabaseConstants.baseKey,
   );
-  runApp(const MyApp());
+  runApp(MyApp(
+    appRouter: AppRouter(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final AppRouter appRouter;
+  const MyApp({Key? key, required this.appRouter}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +43,18 @@ class MyApp extends StatelessWidget {
           supportedLocales: AppLocalizations.supportedLocales,
           locale: locale.locale,
           theme: appTheme,
-          initialRoute: SplashPage.path,
-          routes: {
-            SplashPage.path: (context) => const SplashPage(),
-            ChatPage.path: (context) => const ChatPage(),
-            LoginPage.path: (context) => const LoginPage(),
-            RegisterPage.path: (context) => const RegisterPage(),
-            ConversationsPage.path: (context) => const ConversationsPage(),
-            ProfilesScreen.path: (context) => const ProfilesScreen(),
-            ConversationDetails.path: (context) => const ConversationDetails(),
-            Addprofiles.path: (context) => const Addprofiles()
-          },
+          onGenerateRoute: appRouter.generateRoute,
+          // initialRoute: SplashPage.path,
+          // routes: {
+          //   SplashPage.path: (context) => const SplashPage(),
+          //   ChatPage.path: (context) => const ChatPage(),
+          //   LoginPage.path: (context) => const LoginPage(),
+          //   RegisterPage.path: (context) => const RegisterPage(),
+          //   ConversationsPage.path: (context) => const ConversationsPage(),
+          //   ProfilesScreen.path: (context) => const ProfilesScreen(),
+          //   ConversationDetails.path: (context) => const ConversationDetails(),
+          //   Addprofiles.path: (context) => const Addprofiles()
+          // },
         );
       }),
     );

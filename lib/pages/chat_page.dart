@@ -10,32 +10,33 @@ import 'package:provider/provider.dart';
 
 import '../utils/localizations_helper.dart';
 
-class ChatPage extends StatefulWidget {
+class ChatPage extends StatelessWidget {
   static const path = "/chat";
+  final ArgumentsChat args;
+  const ChatPage({Key? key, required this.args}) : super(key: key);
 
-  const ChatPage({
-    Key? key,
-  }) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return ChangeNotifierProvider(
+//         create: (context) =>
+//             ChatProvider(context: context, conversationId: arguments.id),
+//         child: _ChatPageState());
+//   }
+// }
 
-  @override
-  State<ChatPage> createState() => _ChatPageState();
-}
-
-class _ChatPageState extends State<ChatPage> {
-  late Arguments arguments;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    arguments = ModalRoute.of(context)!.settings.arguments as Arguments;
-  }
+// class _ChatPageState extends StatelessWidget {
+//   _ChatPageState();
+//   // @override
+//   // void didChangeDependencies() {
+//   //   super.didChangeDependencies();
+//   //   arguments = ModalRoute.of(context)!.settings.arguments as ArgumentsChat;
+//   // }
 
   @override
   Widget build(BuildContext context) {
-    final id = arguments.id;
-    final title = arguments.title;
     return ChangeNotifierProvider(
-      create: (context) => ChatProvider(conversationId: id, context: context),
+      create: (context) =>
+          ChatProvider(conversationId: args.id, context: context),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -47,9 +48,9 @@ class _ChatPageState extends State<ChatPage> {
           title: TextButton(
             onPressed: () async {
               Navigator.pushNamed(context, ConversationDetails.path,
-                  arguments: Arguments(id: id, title: title));
+                  arguments: ArgumentsChat(id: args.id, title: args.title));
             },
-            child: Text(title),
+            child: Text(args.title),
           ),
           actions: [
             TextButton(
@@ -104,8 +105,8 @@ class _ChatPageState extends State<ChatPage> {
   }
 }
 
-class Arguments {
+class ArgumentsChat {
   String id;
   String title;
-  Arguments({required this.id, required this.title});
+  ArgumentsChat({required this.id, required this.title});
 }

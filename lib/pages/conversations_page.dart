@@ -40,28 +40,24 @@ class _ConversationsPage extends StatelessWidget {
             ),
           ],
         ),
-        body: provider.hasConnection
-            ? ListView.builder(
-                itemCount: provider.conversationsParticipant.length,
-                itemBuilder: (context, index) {
-                  final conversation = provider.conversationsParticipant[index];
-                  return ListTile(
-                    onTap: () => {
-                      Navigator.pushNamed(context, ChatPage.path,
-                          arguments: Arguments(
-                              id: conversation.conversationId,
-                              title: conversation.conversation.title)),
-                    },
-                    title: ProfileItem(
-                      title: conversation.conversation.title,
-                    ),
-                    subtitle: Text(
-                        '  ${format(conversation.createdAt, locale: 'en_short')}'),
-                  );
-                },
-              )
-            : const Center(
-                child: Text("pas d'internet"),
-              ));
+        body: ListView.builder(
+          itemCount: provider.conversationsParticipant.length,
+          itemBuilder: (context, index) {
+            final conversation = provider.conversationsParticipant[index];
+            return ListTile(
+              onTap: () => {
+                Navigator.pushNamed(context, ChatPage.path,
+                    arguments: ArgumentsChat(
+                        id: conversation.conversationId,
+                        title: conversation.conversation.title)),
+              },
+              title: ProfileItem(
+                title: conversation.conversation.title,
+              ),
+              subtitle: Text(
+                  '  ${format(conversation.createdAt, locale: 'en_short')}'),
+            );
+          },
+        ));
   }
 }
