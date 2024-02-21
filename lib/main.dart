@@ -44,17 +44,6 @@ class MyApp extends StatelessWidget {
           locale: locale.locale,
           theme: appTheme,
           onGenerateRoute: appRouter.generateRoute,
-          // initialRoute: SplashPage.path,
-          // routes: {
-          //   SplashPage.path: (context) => const SplashPage(),
-          //   ChatPage.path: (context) => const ChatPage(),
-          //   LoginPage.path: (context) => const LoginPage(),
-          //   RegisterPage.path: (context) => const RegisterPage(),
-          //   ConversationsPage.path: (context) => const ConversationsPage(),
-          //   ProfilesScreen.path: (context) => const ProfilesScreen(),
-          //   ConversationDetails.path: (context) => const ConversationDetails(),
-          //   Addprofiles.path: (context) => const Addprofiles()
-          // },
         );
       }),
     );

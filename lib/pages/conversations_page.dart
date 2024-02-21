@@ -26,6 +26,7 @@ class _ConversationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<CoversationProvider>();
+
     return Scaffold(
         appBar: AppBar(
           title: Text(LocalizationsHelper.msgs(context).conversationLabel),
