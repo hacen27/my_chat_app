@@ -6,8 +6,8 @@ import 'package:my_chat_app/pages/widgets/profile_item_add_to_conversation.dart'
 import 'package:my_chat_app/providers/add_otherprofile_provider.dart';
 import 'package:provider/provider.dart';
 
-class Addprofiles extends StatelessWidget {
-  const Addprofiles({Key? key}) : super(key: key);
+class AddProfiles extends StatelessWidget {
+  const AddProfiles({Key? key}) : super(key: key);
   static const path = "/addprofils";
 
   @override

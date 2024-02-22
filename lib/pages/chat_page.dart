@@ -15,28 +15,10 @@ class ChatPage extends StatelessWidget {
   final ArgumentsChat args;
   const ChatPage({Key? key, required this.args}) : super(key: key);
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return ChangeNotifierProvider(
-//         create: (context) =>
-//             ChatProvider(context: context, conversationId: arguments.id),
-//         child: _ChatPageState());
-//   }
-// }
-
-// class _ChatPageState extends StatelessWidget {
-//   _ChatPageState();
-//   // @override
-//   // void didChangeDependencies() {
-//   //   super.didChangeDependencies();
-//   //   arguments = ModalRoute.of(context)!.settings.arguments as ArgumentsChat;
-//   // }
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) =>
-          ChatProvider(conversationId: args.id, context: context),
+      create: (_) => ChatProvider(conversationId: args.id, context: context),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/accounts/login_page.dart';
-import 'package:my_chat_app/providers/localeprovider.dart';
+import 'package:my_chat_app/providers/locale_provider.dart';
 import 'package:my_chat_app/utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -22,13 +22,12 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final bool _isLoading = false;
-  final AppValidator vald = AppValidator();
-  late String currentDefaultSystemLocale;
-  int selectedLangIndex = 0;
   late LocaleProvider _appLocale;
-
+  final AppValidator validator = AppValidator();
   late AppLanguage dropdownValue;
+  late String currentDefaultSystemLocale;
+
+  int selectedLangIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -95,7 +94,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   decoration: InputDecoration(
                     label: Text(LocalizationsHelper.msgs(context).emailLabel),
                   ),
-                  validator: (val) => vald.email(val, context),
+                  validator: (val) => validator.email(val, context),
                   keyboardType: TextInputType.emailAddress,
                 ),
                 formSpacer,
@@ -106,7 +105,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       label:
                           Text(LocalizationsHelper.msgs(context).passwordLabel),
                     ),
-                    validator: (val) => vald.password(val, context)),
+                    validator: (val) => validator.password(val, context)),
                 formSpacer,
                 TextFormField(
                     controller: regisPro.usernameController,
@@ -114,16 +113,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       label:
                           Text(LocalizationsHelper.msgs(context).usernameLabel),
                     ),
-                    validator: (val) => vald.username(val, context)),
+                    validator: (val) => validator.username(val, context)),
                 formSpacer,
                 ElevatedButton(
-                  onPressed: _isLoading
-                      ? null
-                      : () async {
-                          regisPro.signUp(
-                            context,
-                          );
-                        },
+                  onPressed: () async {
+                    regisPro.signUp(
+                      context,
+                    );
+                  },
                   child: Text(LocalizationsHelper.msgs(context).registerButton),
                 ),
                 formSpacer,

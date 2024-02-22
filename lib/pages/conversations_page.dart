@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/chat_page.dart';
-import 'package:my_chat_app/pages/screenprofiles.dart';
+import 'package:my_chat_app/pages/profiles_page.dart';
 import 'package:my_chat_app/pages/widgets/profile_item.dart';
 import 'package:my_chat_app/utils/localizations_helper.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +15,7 @@ class ConversationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => CoversationProvider(context: context),
+        create: (_) => CoversationProvider(context: context),
         child: const _ConversationsPage());
   }
 }
@@ -36,7 +36,7 @@ class _ConversationsPage extends StatelessWidget {
               tooltip:
                   LocalizationsHelper.msgs(context).createNewConversationButton,
               onPressed: () {
-                Navigator.pushNamed(context, ProfilesScreen.path);
+                Navigator.pushNamed(context, ProfilesPage.path);
               },
             ),
           ],

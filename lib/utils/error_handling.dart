@@ -128,6 +128,7 @@ class ErrorHandling {
           message = "Erreur AuthException non gérée: code $statusCode";
           break;
       }
+      ErrorSnackBar(message: message).show(context);
     }
   }
 }

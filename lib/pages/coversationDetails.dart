@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/pages/addlistprofils.dart';
+import 'package:my_chat_app/pages/add_profils.dart';
 import 'package:my_chat_app/pages/chat_page.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:my_chat_app/utils/localizations_helper.dart';
@@ -17,7 +17,7 @@ class ConversationDetails extends StatelessWidget {
     final arguments =
         ModalRoute.of(context)!.settings.arguments as ArgumentsChat;
     return ChangeNotifierProvider(
-        create: (context) => CoversationDetailsProvider(
+        create: (_) => CoversationDetailsProvider(
             conversationId: arguments.id, context: context),
         child: _ConversationDetails());
   }
@@ -52,7 +52,7 @@ class _ConversationDetails extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, Addprofiles.path,
+                  Navigator.pushNamed(context, AddProfiles.path,
                       arguments: ArgumentsChat(
                           id: arguments.id, title: arguments.title));
                 },

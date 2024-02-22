@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => LoginProvider(),
+        create: (_) => LoginProvider(),
         child: Scaffold(
           appBar: AppBar(
             title: Text(
