@@ -25,16 +25,19 @@ class _ProfilesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.amber,
-        leading: prov.isSearching
-            ? const BackButton(color: Colors.black)
-            : Container(),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         title: prov.isSearching
             ? TextField(
                 controller: prov.searchTextCotrollor,
                 cursorColor: Colors.white,
                 decoration: const InputDecoration(
                   fillColor: Colors.white,
-                  hintText: 'find  a Profile...',
+                  hintText: 'Find  a Profile...',
                   hintStyle: TextStyle(color: Colors.white, fontSize: 18),
                 ),
                 style: const TextStyle(color: Colors.black, fontSize: 18),

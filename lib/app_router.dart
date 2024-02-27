@@ -6,6 +6,7 @@ import 'package:my_chat_app/pages/add_profils.dart';
 import 'package:my_chat_app/pages/chat_page.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:my_chat_app/pages/coversationdetails.dart';
+import 'package:my_chat_app/pages/home_page.dart';
 import 'package:my_chat_app/pages/profiles_page.dart';
 import 'package:my_chat_app/pages/splash_page.dart';
 
@@ -36,6 +37,8 @@ class AppRouter {
             return const ConversationDetails();
           case AddProfiles.path:
             return const AddProfiles();
+          case HomePage.path:
+            return const HomePage();
 
           default:
             return Scaffold(

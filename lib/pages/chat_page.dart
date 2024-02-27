@@ -34,17 +34,6 @@ class ChatPage extends StatelessWidget {
             },
             child: Text(args.title),
           ),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                await supabase.auth.signOut();
-                // ignore: use_build_context_synchronously
-                Navigator.pushNamedAndRemoveUntil(
-                    context, RegisterPage.path, (route) => false);
-              },
-              child: const Text('Logout'),
-            ),
-          ],
         ),
         body: Consumer<ChatProvider?>(builder: (context, chtPro, child) {
           if (chtPro == null) {

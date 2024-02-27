@@ -22,52 +22,11 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  late LocaleProvider _appLocale;
   final AppValidator validator = AppValidator();
-  late AppLanguage dropdownValue;
+
   late String currentDefaultSystemLocale;
 
   int selectedLangIndex = 0;
-  @override
-  void initState() {
-    super.initState();
-    dropdownValue = AppLanguage.languages().first;
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _appLocale = Provider.of<LocaleProvider>(context);
-    getLocale().then((locale) {
-      _appLocale.changeLocale(Locale(locale.languageCode));
-      dropdownValue = AppLanguage.languages()
-          .firstWhere((element) => element.languageCode == locale.languageCode);
-      _setFlag();
-    });
-  }
-
-  void _setFlag() {
-    currentDefaultSystemLocale = _appLocale.locale.languageCode.split('_')[0];
-    setState(() {
-      selectedLangIndex = _getLangIndex(currentDefaultSystemLocale);
-    });
-  }
-
-  int _getLangIndex(String currentDefaultSystemLocale) {
-    int langIndex = 0;
-    switch (currentDefaultSystemLocale) {
-      case 'en':
-        langIndex = 0;
-        break;
-      case 'fr':
-        langIndex = 1;
-        break;
-      case 'ar':
-        langIndex = 2;
-        break;
-    }
-    return langIndex;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +35,6 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(LocalizationsHelper.msgs(context).registerButton),
-          actions: [
-            buildLanguageDropdown(),
-          ],
         ),
         body: Consumer<RegisterProvider?>(builder: (context, regisPro, child) {
           if (regisPro == null) {
@@ -86,83 +42,96 @@ class _RegisterPageState extends State<RegisterPage> {
           }
           return Form(
             key: regisPro.formKey,
-            child: ListView(
-              padding: formPadding,
-              children: [
-                TextFormField(
-                  controller: regisPro.emailController,
-                  decoration: InputDecoration(
-                    label: Text(LocalizationsHelper.msgs(context).emailLabel),
+            child: Localizations.override(
+              context: context,
+              child: Center(
+                child: SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 600),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Column(
+                            children: [
+                              CircleAvatar(
+                                radius: 40,
+                                backgroundColor: Colors.amber,
+                                child: Icon(
+                                  Icons.person,
+                                  size: 40,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                'ChatApp',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 35),
+                          TextFormField(
+                            controller: regisPro.emailController,
+                            decoration: InputDecoration(
+                              label: Text(
+                                  LocalizationsHelper.msgs(context).emailLabel),
+                            ),
+                            validator: (val) => validator.email(val, context),
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+                          const SizedBox(
+                              height: 20), // Espacement entre les champs
+                          TextFormField(
+                            controller: regisPro.passwordController,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              label: Text(LocalizationsHelper.msgs(context)
+                                  .passwordLabel),
+                            ),
+                            validator: (val) =>
+                                validator.password(val, context),
+                          ),
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            controller: regisPro.usernameController,
+                            decoration: InputDecoration(
+                              label: Text(LocalizationsHelper.msgs(context)
+                                  .usernameLabel),
+                            ),
+                            validator: (val) =>
+                                validator.username(val, context),
+                          ),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () async {
+                              regisPro.signUp(context);
+                            },
+                            child: Text(LocalizationsHelper.msgs(context)
+                                .registerButton),
+                          ),
+                          const SizedBox(height: 20),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, LoginPage.path, (route) => false);
+                            },
+                            child: Text(LocalizationsHelper.msgs(context)
+                                .alreadyHaveAccount),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  validator: (val) => validator.email(val, context),
-                  keyboardType: TextInputType.emailAddress,
                 ),
-                formSpacer,
-                TextFormField(
-                    controller: regisPro.passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      label:
-                          Text(LocalizationsHelper.msgs(context).passwordLabel),
-                    ),
-                    validator: (val) => validator.password(val, context)),
-                formSpacer,
-                TextFormField(
-                    controller: regisPro.usernameController,
-                    decoration: InputDecoration(
-                      label:
-                          Text(LocalizationsHelper.msgs(context).usernameLabel),
-                    ),
-                    validator: (val) => validator.username(val, context)),
-                formSpacer,
-                ElevatedButton(
-                  onPressed: () async {
-                    regisPro.signUp(
-                      context,
-                    );
-                  },
-                  child: Text(LocalizationsHelper.msgs(context).registerButton),
-                ),
-                formSpacer,
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, LoginPage.path, (route) => false);
-                  },
-                  child: Text(
-                      LocalizationsHelper.msgs(context).alreadyHaveAccount),
-                )
-              ],
+              ),
             ),
           );
         }),
-      ),
-    );
-  }
-
-  Widget buildLanguageDropdown() {
-    return Center(
-      child: DropdownButton<AppLanguage>(
-        value: dropdownValue,
-        iconSize: 40,
-        style: const TextStyle(fontSize: 20),
-        onChanged: (AppLanguage? language) {
-          dropdownValue = language!;
-          _appLocale.changeLocale(Locale(language.languageCode));
-          _setFlag();
-          setLocale(language.languageCode);
-        },
-        items: AppLanguage.languages()
-            .map<DropdownMenuItem<AppLanguage>>(
-              (e) => DropdownMenuItem<AppLanguage>(
-                value: e,
-                child: Text(
-                  e.name,
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ),
-            )
-            .toList(),
       ),
     );
   }
