@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/accounts/login_page.dart';
 import 'package:my_chat_app/pages/accounts/register_page.dart';
-import 'package:my_chat_app/pages/add_profils.dart';
+import 'package:my_chat_app/pages/add_profiles.dart';
 import 'package:my_chat_app/pages/chat_page.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
-import 'package:my_chat_app/pages/coversationdetails.dart';
+import 'package:my_chat_app/pages/conversation_details.dart';
 import 'package:my_chat_app/pages/home_page.dart';
 import 'package:my_chat_app/pages/profiles_page.dart';
 import 'package:my_chat_app/pages/splash_page.dart';
@@ -25,9 +25,9 @@ class AppRouter {
           case RegisterPage.path:
             return const RegisterPage();
           case ChatPage.path:
-            final argscht = settings.arguments as ArgumentsChat;
+            final argsChat = settings.arguments as ArgumentsChat;
             return ChatPage(
-              args: argscht,
+              args: argsChat,
             );
           case ConversationsPage.path:
             return const ConversationsPage();

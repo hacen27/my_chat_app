@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
         style: TextStyle(fontSize: 40),
       ),
     ),
-    SettingsWidget()
+    const SettingsWidget()
   ];
 
   int _selectedIndex = 0;

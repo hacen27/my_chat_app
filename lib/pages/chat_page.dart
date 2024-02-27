@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:my_chat_app/pages/coversationdetails.dart';
-import 'package:my_chat_app/pages/accounts/register_page.dart';
+import 'package:my_chat_app/pages/conversation_details.dart';
 import 'package:my_chat_app/pages/widgets/chatbubble.dart';
 import 'package:my_chat_app/pages/widgets/messagebar.dart';
 import 'package:my_chat_app/providers/chat_provider.dart';
-import 'package:my_chat_app/utils/supabase_constants.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/localizations_helper.dart';

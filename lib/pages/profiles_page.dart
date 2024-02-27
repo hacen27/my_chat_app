@@ -33,7 +33,7 @@ class _ProfilesScreen extends StatelessWidget {
         ),
         title: prov.isSearching
             ? TextField(
-                controller: prov.searchTextCotrollor,
+                controller: prov.searchTextController,
                 cursorColor: Colors.white,
                 decoration: const InputDecoration(
                   fillColor: Colors.white,
@@ -42,7 +42,7 @@ class _ProfilesScreen extends StatelessWidget {
                 ),
                 style: const TextStyle(color: Colors.black, fontSize: 18),
                 onChanged: (searchProfile) {
-                  prov.addSearChedForitemsToserchedList(searchProfile);
+                  prov.addSearChedForItemsToSearchedList(searchProfile);
                 },
               )
             : const Text(
@@ -71,12 +71,12 @@ class _ProfilesScreen extends StatelessWidget {
             ),
         ],
       ),
-      body: !prov.isComplet
+      body: !prov.isComplete
           ? SingleChildScrollView(
               child: Column(
                 children: [
                   const SizedBox(height: 15),
-                  if (prov.profilIds.isNotEmpty)
+                  if (prov.profileIds.isNotEmpty)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -94,7 +94,7 @@ class _ProfilesScreen extends StatelessWidget {
                         const SizedBox(width: 150),
                         ElevatedButton(
                           onPressed: () {
-                            prov.setComplet();
+                            prov.setComplete();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blueAccent,
@@ -108,27 +108,27 @@ class _ProfilesScreen extends StatelessWidget {
                   SingleChildScrollView(
                     child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: prov.searchTextCotrollor.text.isEmpty
+                        itemCount: prov.searchTextController.text.isEmpty
                             ? prov.allProfiles.length
                             : prov.searchFonProfiles.length,
                         itemBuilder: (ctx, index) {
-                          bool? isSeleted = prov.isProfileSelected(
-                              prov.searchTextCotrollor.text.isEmpty
+                          bool? isSelected = prov.isProfileSelected(
+                              prov.searchTextController.text.isEmpty
                                   ? prov.allProfiles[index].id
                                   : prov.searchFonProfiles[index].id);
                           return InkWell(
                             onTap: () {
                               prov.toggleProfileSelection(
-                                prov.searchTextCotrollor.text.isEmpty
+                                prov.searchTextController.text.isEmpty
                                     ? prov.allProfiles[index].id
                                     : prov.searchFonProfiles[index].id,
                               );
                             },
                             child: ProfileItemAddToConversation(
-                              profile: prov.searchTextCotrollor.text.isEmpty
+                              profile: prov.searchTextController.text.isEmpty
                                   ? prov.allProfiles[index]
                                   : prov.searchFonProfiles[index],
-                              isSelected: isSeleted,
+                              isSelected: isSelected,
                             ),
                           );
                         }),
@@ -161,8 +161,9 @@ class _ProfilesScreen extends StatelessWidget {
                           elevation: 2,
                           backgroundColor: Colors.amber),
                       onPressed: () async {
-                        bool succes = await prov.addtoConversation();
-                        if (succes) {
+                        bool success = await prov.addToConversation();
+
+                        if (success && context.mounted) {
                           Navigator.pushNamedAndRemoveUntil(
                             context,
                             ConversationsPage.path,

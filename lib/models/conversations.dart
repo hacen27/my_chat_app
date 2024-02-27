@@ -25,15 +25,6 @@ class Conversation {
           .toList(),
     );
   }
-
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     'id': id,
-  //     'created_at': createdAt.toIso8601String(),
-  //     'messages': messages.map((message) => message.toJson()).toList(),
-  //     'profiles': profiles.toJson(),
-  //   };
-  // }
 }
 
 class Messages {

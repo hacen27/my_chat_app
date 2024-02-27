@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/pages/add_profils.dart';
+import 'package:my_chat_app/pages/add_profiles.dart';
 import 'package:my_chat_app/pages/chat_page.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:my_chat_app/utils/localizations_helper.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/coversation_details_provider.dart';
+import '../providers/conversations_details_provider.dart';
 
 class ConversationDetails extends StatelessWidget {
-  static const path = "/ProfilConversation";
+  static const path = "/profileConversation";
 
   const ConversationDetails({Key? key}) : super(key: key);
 
@@ -17,7 +17,7 @@ class ConversationDetails extends StatelessWidget {
     final arguments =
         ModalRoute.of(context)!.settings.arguments as ArgumentsChat;
     return ChangeNotifierProvider(
-        create: (_) => CoversationDetailsProvider(
+        create: (_) => ConversationDetailsProvider(
             conversationId: arguments.id, context: context),
         child: _ConversationDetails());
   }
@@ -28,7 +28,7 @@ class _ConversationDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments =
         ModalRoute.of(context)!.settings.arguments as ArgumentsChat;
-    final provideControleur = context.watch<CoversationDetailsProvider>();
+    final provideController = context.watch<ConversationDetailsProvider>();
 
     return Scaffold(
       appBar: AppBar(
@@ -84,7 +84,7 @@ class _ConversationDetails extends StatelessWidget {
                             child: Text(
                                 LocalizationsHelper.msgs(context).leaveButton),
                             onPressed: () {
-                              provideControleur.deletProfile();
+                              provideController.deleteProfile();
                               if (context.mounted) {
                                 Navigator.pushNamedAndRemoveUntil(context,
                                     ConversationsPage.path, (route) => false);
@@ -108,9 +108,9 @@ class _ConversationDetails extends StatelessWidget {
           const SizedBox(height: 10),
           Expanded(
             child: ListView.builder(
-              itemCount: provideControleur.profileParticipant.length,
+              itemCount: provideController.profileParticipant.length,
               itemBuilder: (context, index) {
-                final pp = provideControleur.profileParticipant[index];
+                final pp = provideController.profileParticipant[index];
                 return Padding(
                   padding: const EdgeInsets.only(left: 60, right: 60, top: 6),
                   child: Row(

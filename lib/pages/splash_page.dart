@@ -1,5 +1,6 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:my_chat_app/pages/accounts/register_page.dart';
 import 'package:my_chat_app/pages/home_page.dart';
 import 'package:my_chat_app/utils/constants.dart';
@@ -24,17 +25,15 @@ class SplashPageState extends State<SplashPage> {
     await Future.delayed(Duration.zero);
     try {
       final session = supabase.auth.currentSession;
-      if (session == null) {
+      if (session == null && mounted) {
         Navigator.pushNamedAndRemoveUntil(
             context, RegisterPage.path, (route) => false);
       } else {
-        // Navigator.pushNamedAndRemoveUntil(
-        //     context, ConversationsPage.path, (route) => false);
         Navigator.pushNamedAndRemoveUntil(
             context, HomePage.path, (route) => false);
       }
     } catch (e) {
-      print('Error during redirection: $e');
+      log(e.toString());
     }
   }
 

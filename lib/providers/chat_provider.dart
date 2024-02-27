@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/models/message.dart';
@@ -52,14 +50,15 @@ class ChatProvider with ChangeNotifier {
     textController.clear();
 
     await ExceptionCatch.catchErrors(
-        () => _chatServices.submitMessg(conversationId, currentUser!.id, text),
+        () =>
+            _chatServices.submitMessage(conversationId, currentUser!.id, text),
         context);
+  }
 
-    @override
-    void dispose() {
-      _messagesSubscription.cancel();
-      textController.dispose();
-      super.dispose();
-    }
+  @override
+  void dispose() {
+    _messagesSubscription.cancel();
+    textController.dispose();
+    super.dispose();
   }
 }

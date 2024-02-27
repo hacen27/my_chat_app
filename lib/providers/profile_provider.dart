@@ -1,9 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/providers/account/auth_provider.dart';
-import 'package:my_chat_app/services/coversation_services.dart';
+import 'package:my_chat_app/services/conversation_services.dart';
 import 'package:my_chat_app/services/profile_services.dart';
 import 'package:my_chat_app/utils/exception_catch.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -16,14 +15,14 @@ class ProfileProvider with ChangeNotifier {
 
   String conversationId = '';
 
-  List<String> profilIds = [];
+  List<String> profileIds = [];
 
   bool isSearching = false;
-  final searchTextCotrollor = TextEditingController();
+  final searchTextController = TextEditingController();
   final textTitleController = TextEditingController();
-  bool isComplet = false;
+  bool isComplete = false;
   final ProfileServices _profileServices = ProfileServices();
-  final CoversationServices _coversationServices = CoversationServices();
+  final ConversationsServices _conversationsServices = ConversationsServices();
   User? get currentUser => AuthProvider().getUser();
 
   final BuildContext context;
@@ -31,7 +30,7 @@ class ProfileProvider with ChangeNotifier {
     initializeData();
   }
 
-  void addSearChedForitemsToserchedList(String searchProfile) {
+  void addSearChedForItemsToSearchedList(String searchProfile) {
     searchFonProfiles = allProfiles
         .where((profile) =>
             profile.username.toLowerCase().startsWith(searchProfile))
@@ -52,52 +51,52 @@ class ProfileProvider with ChangeNotifier {
   }
 
   void clearSearch() {
-    searchTextCotrollor.clear();
+    searchTextController.clear();
     notifyListeners();
   }
 
-  void setComplet() {
-    isComplet = true;
+  void setComplete() {
+    isComplete = true;
     notifyListeners();
   }
 
   void toggleProfileSelection(String profileId) {
-    if (profilIds.contains(profileId)) {
-      profilIds.remove(profileId);
+    if (profileIds.contains(profileId)) {
+      profileIds.remove(profileId);
     } else {
-      profilIds.add(profileId);
+      profileIds.add(profileId);
     }
 
     notifyListeners();
   }
 
   bool isProfileSelected(String profileId) {
-    return profilIds.contains(profileId);
+    return profileIds.contains(profileId);
   }
 
   void resetSelection() {
-    profilIds.clear();
+    profileIds.clear();
 
     notifyListeners();
   }
 
   Future<void> initializeData() async {
-    await getAllprofile();
+    await getAllProfile();
 
     notifyListeners();
   }
 
-  Future<void> getAllprofile() async {
+  Future<void> getAllProfile() async {
     final response = await ExceptionCatch.catchErrors(
-        () => _profileServices.allprofiles(currentUser!.id), context);
+        () => _profileServices.allProfiles(currentUser!.id), context);
     searchFonProfiles = allProfiles = response.result!;
     notifyListeners();
   }
 
-  Future<bool> addtoConversation() async {
+  Future<bool> addToConversation() async {
     final response = await ExceptionCatch.catchErrors(
-        () => _coversationServices.newConversation(
-            profilIds, textTitleController.text, currentUser!.id),
+        () => _conversationsServices.newConversation(
+            profileIds, textTitleController.text, currentUser!.id),
         context);
 
     return !response.isError;

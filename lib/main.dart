@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_chat_app/app_router.dart';
-import 'package:my_chat_app/pages/widgets/apptheme.dart';
+import 'package:my_chat_app/pages/widgets/app_theme.dart';
 import 'package:my_chat_app/providers/locale_provider.dart';
 import 'package:my_chat_app/utils/supabase_constants.dart';
 import 'package:provider/provider.dart';

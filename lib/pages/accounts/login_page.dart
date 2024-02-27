@@ -4,7 +4,7 @@ import 'package:my_chat_app/providers/account/login_provider.dart';
 import 'package:my_chat_app/utils/localizations_helper.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/formz.dart';
+import '../widgets/form_widget.dart';
 
 class LoginPage extends StatefulWidget {
   static const path = "/login";
@@ -78,8 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                                   .validator(value ?? '')
                                   ?.text(context),
                             ),
-                            const SizedBox(
-                                height: 25), // Espacement entre les champs
+                            const SizedBox(height: 25),
                             TextFormField(
                               controller: loginPro.passwordController,
                               decoration: InputDecoration(

@@ -3,12 +3,12 @@ import 'package:my_chat_app/pages/chat_page.dart';
 import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:my_chat_app/pages/widgets/profile_item_add_to_conversation.dart';
 
-import 'package:my_chat_app/providers/add_otherprofile_provider.dart';
+import 'package:my_chat_app/providers/add_other_profile_provider.dart';
 import 'package:provider/provider.dart';
 
 class AddProfiles extends StatelessWidget {
   const AddProfiles({Key? key}) : super(key: key);
-  static const path = "/addprofils";
+  static const path = "/addProfiles";
 
   @override
   Widget build(BuildContext context) {
@@ -16,25 +16,25 @@ class AddProfiles extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as ArgumentsChat;
 
     return ChangeNotifierProvider(
-      create: (_) => AddlistprofilesProvider(conversationId: arguments.id),
-      child: _Addprofiles(),
+      create: (_) => AddListProfilesProvider(conversationId: arguments.id),
+      child: _AddProfiles(),
     );
   }
 }
 
-class _Addprofiles extends StatelessWidget {
+class _AddProfiles extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final prov = context.watch<AddlistprofilesProvider>();
+    final prov = context.watch<AddListProfilesProvider>();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Ajouter des profils"),
+        title: const Text("Ajouter des Profiles"),
       ),
       body: Column(
         children: [
           const SizedBox(height: 15),
-          if (prov.profilIds.isNotEmpty)
+          if (prov.profileIds.isNotEmpty)
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -50,7 +50,7 @@ class _Addprofiles extends StatelessWidget {
                 const SizedBox(width: 150),
                 ElevatedButton(
                   onPressed: () {
-                    prov.addProfile(prov.profilIds, prov.conversationId);
+                    prov.addProfile(prov.profileIds, prov.conversationId);
                     if (context.mounted) {
                       Navigator.pushNamedAndRemoveUntil(
                           context, ConversationsPage.path, (route) => false);

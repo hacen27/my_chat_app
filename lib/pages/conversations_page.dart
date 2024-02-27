@@ -5,7 +5,7 @@ import 'package:my_chat_app/pages/widgets/profile_item.dart';
 import 'package:my_chat_app/utils/localizations_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart';
-import '../providers/coversation_provider.dart';
+import '../providers/conversations_provider.dart';
 
 class ConversationsPage extends StatelessWidget {
   static const path = "/conversation";
@@ -15,7 +15,7 @@ class ConversationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (_) => CoversationProvider(context: context),
+        create: (_) => ConversationProvider(context: context),
         child: const _ConversationsPage());
   }
 }
@@ -25,7 +25,7 @@ class _ConversationsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<CoversationProvider>();
+    final provider = context.watch<ConversationProvider>();
 
     return Scaffold(
         appBar: AppBar(

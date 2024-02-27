@@ -3,10 +3,10 @@ import 'package:my_chat_app/models/conversations.dart';
 import '../models/conversation_participant.dart';
 import '../utils/supabase_constants.dart';
 
-class CoversationServices {
+class ConversationsServices {
   Newconversation? newconversation;
 
-  Future<dynamic> newConversation(
+  Future<void> newConversation(
       List<String> profileIds, String title, String myId) async {
     final conversation =
         await supabase.from('conversation').insert({'title': title}).select();
@@ -22,21 +22,19 @@ class CoversationServices {
         }
     ];
 
-    final conversationdata = await supabase
+    await supabase
         .from('conversation_participant')
         .insert(participants)
         .select();
-
-    return conversationdata;
   }
 
-  Future<List<ConversationParticpant>> conversationParticipant(
+  Future<List<ConversationParticipant>> conversationParticipant(
       String myId) async {
     final data = await supabase
         .from('conversation_participant')
         .select('id, created_at, conversation_id, conversation!inner(title)')
         .eq('profile_id', myId)
         .order('created_at', ascending: false);
-    return data.map((e) => ConversationParticpant.fromJson(e)).toList();
+    return data.map((e) => ConversationParticipant.fromJson(e)).toList();
   }
 }

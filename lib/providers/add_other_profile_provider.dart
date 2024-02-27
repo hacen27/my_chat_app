@@ -4,53 +4,54 @@ import 'package:my_chat_app/services/profile_services.dart';
 
 import '../pages/widgets/customsnackbar.dart';
 
-class AddlistprofilesProvider with ChangeNotifier {
+class AddListProfilesProvider with ChangeNotifier {
   List<Profile> profiles = [];
-  final ProfileServices _webservices = ProfileServices();
+  final ProfileServices _webServices = ProfileServices();
 
   Map<String, bool> selectedItem = {};
-  List<String> profilIds = [];
+  List<String> profileIds = [];
 
   bool isSearching = false;
   final String conversationId;
 
-  AddlistprofilesProvider({required this.conversationId}) {
-    getProfilData(conversationId);
+  AddListProfilesProvider({required this.conversationId}) {
+    getProfileData(conversationId);
   }
 
   void toggleProfileSelection(String profileId) {
-    if (profilIds.contains(profileId)) {
-      profilIds.remove(profileId);
+    if (profileIds.contains(profileId)) {
+      profileIds.remove(profileId);
     } else {
-      profilIds.add(profileId);
+      profileIds.add(profileId);
     }
 
     notifyListeners();
   }
 
   bool isProfileSelected(String profileId) {
-    return profilIds.contains(profileId);
+    return profileIds.contains(profileId);
   }
 
   void resetSelection() {
     selectedItem.clear();
-    profilIds.clear();
+    profileIds.clear();
     notifyListeners();
   }
 
-  Future<void> getProfilData(conversationId) async {
+  Future<void> getProfileData(conversationId) async {
     try {
-      final myprofiles = await _webservices.getprofilesByconId(conversationId);
-      profiles = myprofiles;
+      final myProfiles =
+          await _webServices.getProfilesNotInConversation(conversationId);
+      profiles = myProfiles;
       notifyListeners();
     } catch (e) {
       ErrorSnackBar(message: e.toString());
     }
   }
 
-  addProfile(profilIds, conversationId) {
+  addProfile(profileIds, conversationId) {
     try {
-      _webservices.addToConversation(profilIds, conversationId);
+      _webServices.addToConversation(profileIds, conversationId);
     } catch (e) {
       ErrorSnackBar(message: e.toString());
     }

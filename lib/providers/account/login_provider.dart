@@ -6,7 +6,7 @@ import 'package:my_chat_app/pages/conversations_page.dart';
 import 'package:my_chat_app/providers/account/auth_provider.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../pages/widgets/formz.dart';
+import '../../pages/widgets/form_widget.dart';
 import '../../utils/error_handling.dart';
 
 class LoginProvider with ChangeNotifier {

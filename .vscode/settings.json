@@ -1,3 +1,16 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "cSpell.words": [
+        "Ajouter",
+        "ARGB",
+        "chatbubble",
+        "Cupertino",
+        "customsnackbar",
+        "formz",
+        "messagebar",
+        "Newconversation",
+        "Postgrest",
+        "timeago",
+        "العربية"
+    ]
 }

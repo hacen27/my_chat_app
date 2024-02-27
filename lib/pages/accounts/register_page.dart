@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/pages/accounts/login_page.dart';
-import 'package:my_chat_app/providers/locale_provider.dart';
-import 'package:my_chat_app/utils/constants.dart';
 import 'package:provider/provider.dart';
-
-import '../../models/app_language.dart';
 
 import '../../providers/account/register_provider.dart';
 
@@ -84,8 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             validator: (val) => validator.email(val, context),
                             keyboardType: TextInputType.emailAddress,
                           ),
-                          const SizedBox(
-                              height: 20), // Espacement entre les champs
+                          const SizedBox(height: 20),
                           TextFormField(
                             controller: regisPro.passwordController,
                             obscureText: true,

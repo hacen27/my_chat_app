@@ -27,8 +27,10 @@ class RegisterProvider with ChangeNotifier {
     try {
       await authProvider!.signUp(email, password, username);
 
-      Navigator.pushNamedAndRemoveUntil(
-          context, ConversationsPage.path, (route) => false);
+      if (context.mounted) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, ConversationsPage.path, (route) => false);
+      }
     } on AuthException catch (error) {
       log(error.toString());
       ErrorHandling.signUpException(error, context);

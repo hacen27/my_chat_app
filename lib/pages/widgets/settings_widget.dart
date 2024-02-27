@@ -10,7 +10,7 @@ class SettingsWidget extends StatefulWidget {
   const SettingsWidget({super.key});
 
   @override
-  _SettingsWidgetState createState() => _SettingsWidgetState();
+  State<SettingsWidget> createState() => _SettingsWidgetState();
 }
 
 class _SettingsWidgetState extends State<SettingsWidget> {
@@ -69,9 +69,10 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           TextButton(
             onPressed: () async {
               await supabase.auth.signOut();
-
-              Navigator.pushNamedAndRemoveUntil(
-                  context, RegisterPage.path, (route) => false);
+              if (mounted) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, RegisterPage.path, (route) => false);
+              }
             },
             child: const Text('Logout'),
           ),
