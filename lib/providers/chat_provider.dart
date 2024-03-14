@@ -14,17 +14,30 @@ class ChatProvider with ChangeNotifier {
   final String conversationId;
   List<Message> _messages = [];
 
+  final focusNode = FocusNode();
   List<Message> get messages => _messages;
 
   User? get currentUser => AuthProvider().getUser();
 
   final ChatServices _chatServices = ChatServices();
   late final StreamSubscription<List<Message>> _messagesSubscription;
-  final BuildContext context;
-  final textController = TextEditingController();
 
-  ChatProvider({required this.conversationId, required this.context}) {
+  final textController = TextEditingController();
+  Message? replyMessage;
+
+  ChatProvider({required this.conversationId}) {
     myMessages();
+  }
+
+  void replyToMessage(Message message) {
+    replyMessage = message;
+
+    notifyListeners();
+  }
+
+  void cancelReply() {
+    replyMessage = null;
+    notifyListeners();
   }
 
   Future<void> myMessages() async {
@@ -32,10 +45,11 @@ class ChatProvider with ChangeNotifier {
         _chatServices.getAllMessages(conversationId, currentUser!.id).listen(
       (newMessages) {
         _messages = newMessages;
+
         notifyListeners();
       },
       onError: (err) {
-        ErrorHandling.handlePostgresError(err, context);
+        ErrorHandling.handlePostgresError(err);
       },
     );
   }
@@ -49,10 +63,17 @@ class ChatProvider with ChangeNotifier {
 
     textController.clear();
 
+    await ExceptionCatch.catchErrors(() => _chatServices.submitMessage(
+          conversationId,
+          currentUser!.id,
+          text,
+          replyMessage,
+        ));
+  }
+
+  void deleteMessage(String content) async {
     await ExceptionCatch.catchErrors(
-        () =>
-            _chatServices.submitMessage(conversationId, currentUser!.id, text),
-        context);
+        () => _chatServices.deleteMessage(content));
   }
 
   @override

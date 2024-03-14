@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/models/app_language.dart';
-import 'package:my_chat_app/pages/accounts/register_page.dart';
+import 'package:my_chat_app/pages/account/register_page.dart';
 import 'package:my_chat_app/providers/locale_provider.dart';
 import 'package:my_chat_app/utils/localizations_helper.dart';
 import 'package:my_chat_app/utils/supabase_constants.dart';
@@ -17,31 +17,19 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   late AppLanguage dropdownValue;
   late String currentDefaultSystemLocale;
   late LocaleProvider _appLocale;
-
   int selectedLangIndex = 0;
+
   @override
   void initState() {
     super.initState();
+    _fetchData();
+  }
+
+  void _fetchData() async {
     dropdownValue = AppLanguage.languages().first;
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _appLocale = Provider.of<LocaleProvider>(context);
-    getLocale().then((locale) {
-      _appLocale.changeLocale(Locale(locale.languageCode));
-      dropdownValue = AppLanguage.languages()
-          .firstWhere((element) => element.languageCode == locale.languageCode);
-      _setFlag();
-    });
-  }
-
-  void _setFlag() {
-    currentDefaultSystemLocale = _appLocale.locale.languageCode.split('_')[0];
-    setState(() {
-      selectedLangIndex = _getLangIndex(currentDefaultSystemLocale);
-    });
+    currentDefaultSystemLocale =
+        await getLocale().then((locale) => locale.languageCode.split('_')[0]);
+    selectedLangIndex = _getLangIndex(currentDefaultSystemLocale);
   }
 
   int _getLangIndex(String currentDefaultSystemLocale) {
@@ -56,12 +44,19 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       case 'ar':
         langIndex = 2;
         break;
+      default:
+        // Add logic to handle unexpected language codes
+        langIndex = 0; // Or choose a default index
+        break;
     }
     return langIndex;
   }
 
   @override
   Widget build(BuildContext context) {
+    _appLocale =
+        Provider.of<LocaleProvider>(context); // Use Provider within build
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
@@ -74,7 +69,10 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                     context, RegisterPage.path, (route) => false);
               }
             },
-            child: const Text('Logout'),
+            child: Text(
+              'Logout',
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
           ),
         ],
       ),
@@ -91,7 +89,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         onChanged: (AppLanguage? language) {
           dropdownValue = language!;
           _appLocale.changeLocale(Locale(language.languageCode));
-          _setFlag();
+          // _setFlag();
           setLocale(language.languageCode);
         },
         items: AppLanguage.languages()

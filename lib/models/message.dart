@@ -7,6 +7,7 @@ class Message {
     this.sendName,
     required this.createdAt,
     required this.isMine,
+    required this.replyMessage,
   });
 
   final String id;
@@ -21,6 +22,7 @@ class Message {
   final DateTime createdAt;
 
   final bool isMine;
+  final Message? replyMessage;
 
   factory Message.fromJson(
       Map<String, dynamic> json, String? conversationId, String profileId) {
@@ -32,6 +34,10 @@ class Message {
       sendName: json['send_name'],
       createdAt: DateTime.parse(json['created_at']),
       isMine: conversationId == json['send_id'],
+      replyMessage: json['replyMessage'] != null
+          ? Message.fromJson(json['replyMessage'], conversationId,
+              profileId) // Correctly pass parameters
+          : null,
     );
   }
 
@@ -44,5 +50,6 @@ class Message {
         content = map['content'],
         createdAt = DateTime.parse(map['created_at']),
         sendName = map['send_name'],
-        isMine = myUserId == map['send_id'];
+        isMine = myUserId == map['send_id'],
+        replyMessage = null;
 }

@@ -2,7 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
-import 'package:my_chat_app/pages/conversations_page.dart';
+import 'package:go_router/go_router.dart';
+import 'package:my_chat_app/pages/home/home_page.dart';
 import 'package:my_chat_app/providers/account/auth_provider.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -54,17 +55,18 @@ class LoginProvider with ChangeNotifier {
 
       if (context.mounted) {
         Navigator.pushNamedAndRemoveUntil(
-            context, ConversationsPage.path, (route) => false);
+            context, HomePage.path, (route) => false);
+        // context.go(HomePage.path);
       }
     } on AuthException catch (error) {
       log(error.toString());
 
-      ErrorHandling.signInException(error, context);
+      ErrorHandling.signInException(error);
 
       isLoading = false;
     } catch (_) {
       log(_.toString());
-      ErrorHandling.signInException(_, context);
+      ErrorHandling.signInException(_);
 
       isLoading = false;
     }

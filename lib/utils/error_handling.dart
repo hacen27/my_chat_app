@@ -1,11 +1,9 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'package:flutter/material.dart';
-
-import '../pages/widgets/customsnackbar.dart';
+import '../pages/widgets/custom_snack_bar.dart';
 
 class ErrorHandling {
-  static void handlePostgresError(dynamic error, BuildContext context) {
+  static void handlePostgresError(dynamic error) {
     String message;
     String? code;
     if (error is PostgrestException) {
@@ -30,12 +28,12 @@ class ErrorHandling {
           message = "Fonctionnalité non prise en charge.";
           break;
 
-        case '21000':
-          message = "Violation de cardinalité.";
+        case '42703':
+          message = "Bad Request";
           break;
 
-        case '23505':
-          message = "Violation de contrainte d'intégrité : doublon détecté.";
+        case 'PGRST100':
+          message = "failed to parse select parameter.";
           break;
         case '40000':
           message = "Retour en arrière de la transaction.";
@@ -63,11 +61,11 @@ class ErrorHandling {
           break;
       }
 
-      ErrorSnackBar(message: message).show(context);
+      ErrorSnackBar(message: message).show();
     }
   }
 
-  static void signInException(dynamic error, BuildContext context) {
+  static void signInException(dynamic error) {
     String message;
     String? statusCode;
 
@@ -95,11 +93,13 @@ class ErrorHandling {
           break;
       }
 
-      ErrorSnackBar(message: message).show(context);
+      ErrorSnackBar(message: message).show();
     }
   }
 
-  static void signUpException(dynamic error, BuildContext context) {
+  static void signUpException(
+    dynamic error,
+  ) {
     String message;
     String? statusCode;
 
@@ -126,7 +126,7 @@ class ErrorHandling {
           message = "Erreur AuthException non gérée: code $statusCode";
           break;
       }
-      ErrorSnackBar(message: message).show(context);
+      ErrorSnackBar(message: message).show();
     }
   }
 }

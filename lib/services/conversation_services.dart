@@ -35,6 +35,7 @@ class ConversationsServices {
         .select('id, created_at, conversation_id, conversation!inner(title)')
         .eq('profile_id', myId)
         .order('created_at', ascending: false);
+
     return data.map((e) => ConversationParticipant.fromJson(e)).toList();
   }
 }

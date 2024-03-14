@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/pages/conversations_page.dart';
-import 'package:my_chat_app/pages/widgets/profile_item_add_to_conversation.dart';
+import 'package:my_chat_app/pages/conversation/conversations_page.dart';
+import 'package:my_chat_app/pages/profile/widgets/profile_item_add_to_conversation.dart';
 import 'package:my_chat_app/providers/profile_provider.dart';
 import 'package:provider/provider.dart';
-import '../utils/localizations_helper.dart';
+import '../../utils/localizations_helper.dart';
 
 class ProfilesPage extends StatelessWidget {
   const ProfilesPage({Key? key}) : super(key: key);
-  static const path = "/profiles";
+  static const path = '/profiles';
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (_) => ProfileProvider(context: context),
-        child: _ProfilesScreen());
+        create: (_) => ProfileProvider(), child: _ProfilesScreen());
   }
 }
 
@@ -24,7 +23,7 @@ class _ProfilesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amber,
+        // backgroundColor: Colors.amber,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
@@ -47,26 +46,22 @@ class _ProfilesScreen extends StatelessWidget {
               )
             : const Text(
                 'Profiles',
-                style: TextStyle(color: Colors.black),
               ),
         actions: [
           if (prov.isSearching)
             IconButton(
               onPressed: () {
-                prov.clearSearch();
-                Navigator.pop(context);
+                prov.stopSearching();
               },
               icon: const Icon(
                 Icons.clear,
-                color: Colors.black,
               ),
             )
           else
             IconButton(
-              onPressed: () => prov.starSearch(context),
+              onPressed: () => prov.starSearch(),
               icon: const Icon(
                 Icons.search,
-                color: Colors.black,
               ),
             ),
         ],
@@ -166,7 +161,7 @@ class _ProfilesScreen extends StatelessWidget {
                         if (success && context.mounted) {
                           Navigator.pushNamedAndRemoveUntil(
                             context,
-                            ConversationsPage.path,
+                            HomePage.path,
                             (route) => false,
                           );
                         }

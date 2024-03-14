@@ -25,8 +25,7 @@ class ProfileProvider with ChangeNotifier {
   final ConversationsServices _conversationsServices = ConversationsServices();
   User? get currentUser => AuthProvider().getUser();
 
-  final BuildContext context;
-  ProfileProvider({required this.context}) {
+  ProfileProvider() {
     initializeData();
   }
 
@@ -38,10 +37,7 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void starSearch(BuildContext? context) {
-    ModalRoute.of(context!)!
-        .addLocalHistoryEntry(LocalHistoryEntry(onRemove: stopSearching));
-
+  void starSearch() {
     isSearching = true;
     notifyListeners();
   }
@@ -52,6 +48,7 @@ class ProfileProvider with ChangeNotifier {
 
   void clearSearch() {
     searchTextController.clear();
+    isSearching = false;
     notifyListeners();
   }
 
@@ -88,16 +85,15 @@ class ProfileProvider with ChangeNotifier {
 
   Future<void> getAllProfile() async {
     final response = await ExceptionCatch.catchErrors(
-        () => _profileServices.allProfiles(currentUser!.id), context);
+        () => _profileServices.allProfiles(currentUser!.id));
     searchFonProfiles = allProfiles = response.result!;
     notifyListeners();
   }
 
   Future<bool> addToConversation() async {
-    final response = await ExceptionCatch.catchErrors(
-        () => _conversationsServices.newConversation(
-            profileIds, textTitleController.text, currentUser!.id),
-        context);
+    final response = await ExceptionCatch.catchErrors(() =>
+        _conversationsServices.newConversation(
+            profileIds, textTitleController.text, currentUser!.id));
 
     return !response.isError;
   }

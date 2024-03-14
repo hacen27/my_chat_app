@@ -11,21 +11,19 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class ConversationDetailsProvider with ChangeNotifier {
   List<Profile> profiles = [];
   List<ProfileParticipant> profileParticipant = [];
-  final BuildContext context;
+
   final ProfileServices _webServices = ProfileServices();
   final String conversationId;
   User? get currentUser => AuthProvider().getUser();
 
-  ConversationDetailsProvider(
-      {required this.conversationId, required this.context}) {
+  ConversationDetailsProvider({required this.conversationId}) {
     getProfileData();
   }
 
   Future<void> getProfileData() async {
     final response = await ExceptionCatch.catchErrors(
-        () =>
-            _webServices.getProfilesParticipantByConversationId(conversationId),
-        context);
+      () => _webServices.getProfilesParticipantByConversationId(conversationId),
+    );
     if (response.isError) return;
     profileParticipant = response.result!;
     notifyListeners();
@@ -33,7 +31,6 @@ class ConversationDetailsProvider with ChangeNotifier {
 
   deleteProfile() async {
     await ExceptionCatch.catchErrors(
-        () => _webServices.quitConversation(conversationId, currentUser!.id),
-        context);
+        () => _webServices.quitConversation(conversationId, currentUser!.id));
   }
 }

@@ -9,19 +9,18 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/conversation_participant.dart';
 
 class ConversationProvider with ChangeNotifier {
-  bool hasConnection = false;
   List<ConversationParticipant> conversationsParticipant = [];
   final ConversationsServices _webServices = ConversationsServices();
 
   User? get currentUser => AuthProvider().getUser();
-  final BuildContext context;
-  ConversationProvider({required this.context}) {
+
+  ConversationProvider() {
     getAllConversationParticipant();
   }
 
   Future<void> getAllConversationParticipant() async {
     final response = await ExceptionCatch.catchErrors(
-        () => _webServices.conversationParticipant(currentUser!.id), context);
+        () => _webServices.conversationParticipant(currentUser!.id));
 
     if (response.isError) return;
 

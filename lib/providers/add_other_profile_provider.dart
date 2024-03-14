@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_chat_app/models/profile.dart';
 import 'package:my_chat_app/services/profile_services.dart';
 
-import '../pages/widgets/customsnackbar.dart';
+import '../pages/widgets/custom_snack_bar.dart';
 
 class AddListProfilesProvider with ChangeNotifier {
   List<Profile> profiles = [];

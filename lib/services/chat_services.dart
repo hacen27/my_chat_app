@@ -3,6 +3,16 @@ import 'package:my_chat_app/models/message.dart';
 import '../utils/supabase_constants.dart';
 
 class ChatServices {
+  Future<String> getTitleByConversationId(String conversationId) async {
+    final title = await supabase
+        .from('conversation')
+        .select('title')
+        .eq('id', conversationId)
+        .single();
+
+    return title['title'];
+  }
+
   Stream<List<Message>> getAllMessages(String conversationId, String myUserId) {
     final messagesStream = supabase
         .from('message')
@@ -16,8 +26,12 @@ class ChatServices {
     return messagesStream;
   }
 
-  Future<void> submitMessage(
-      String conversationId, String myId, String text) async {
+  Future<void> deleteMessage(String content) async {
+    await supabase.from('message').delete().eq('content', content);
+  }
+
+  Future<void> submitMessage(String conversationId, String myId, String text,
+      Message? replyMessage) async {
     final data = await supabase
         .from('profile')
         .select('username')
@@ -26,11 +40,12 @@ class ChatServices {
 
     final senderName = data['username'];
 
-    supabase.from('message').insert({
-      'content': text,
+    await supabase.from('message').insert({
       'conversation_id': conversationId,
+      'content': text,
       'send_id': myId,
       'send_name': senderName,
-    });
+      'replyMessage': "$replyMessage".toString()
+    }).select();
   }
 }

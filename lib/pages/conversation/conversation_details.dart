@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/pages/add_profiles.dart';
-import 'package:my_chat_app/pages/chat_page.dart';
-import 'package:my_chat_app/pages/conversations_page.dart';
+import 'package:my_chat_app/pages/profile/add_profiles.dart';
+import 'package:my_chat_app/pages/conversation/conversations_page.dart';
+import 'package:my_chat_app/pages/home/home_page.dart';
 import 'package:my_chat_app/utils/localizations_helper.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/conversations_details_provider.dart';
+import '../../providers/conversations_details_provider.dart';
 
 class ConversationDetails extends StatelessWidget {
-  static const path = "/profileConversation";
-
-  const ConversationDetails({Key? key}) : super(key: key);
+  static const path = '/profileConversation';
+  final String id;
+  final String title;
+  const ConversationDetails({Key? key, required this.id, required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final arguments =
-        ModalRoute.of(context)!.settings.arguments as ArgumentsChat;
     return ChangeNotifierProvider(
-        create: (_) => ConversationDetailsProvider(
-            conversationId: arguments.id, context: context),
-        child: _ConversationDetails());
+        create: (_) => ConversationDetailsProvider(conversationId: id),
+        child: _ConversationDetails(id, title));
   }
 }
 
 class _ConversationDetails extends StatelessWidget {
+  final String id;
+  final String title;
+  const _ConversationDetails(this.id, this.title);
   @override
   Widget build(BuildContext context) {
-    final arguments =
-        ModalRoute.of(context)!.settings.arguments as ArgumentsChat;
     final provideController = context.watch<ConversationDetailsProvider>();
 
     return Scaffold(
@@ -44,7 +44,7 @@ class _ConversationDetails extends StatelessWidget {
           SizedBox(height: MediaQuery.of(context).size.height * 0.05),
           CircleAvatar(
             radius: 60,
-            child: Text(arguments.title, style: const TextStyle(fontSize: 22)),
+            child: Text(title, style: const TextStyle(fontSize: 22)),
           ),
           const SizedBox(height: 20),
           Row(
@@ -52,9 +52,11 @@ class _ConversationDetails extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, AddProfiles.path,
-                      arguments: ArgumentsChat(
-                          id: arguments.id, title: arguments.title));
+                  Navigator.pushNamed(
+                    context,
+                    Uri(path: AddProfiles.path, queryParameters: {'id': id})
+                        .toString(),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent,
@@ -86,8 +88,8 @@ class _ConversationDetails extends StatelessWidget {
                             onPressed: () {
                               provideController.deleteProfile();
                               if (context.mounted) {
-                                Navigator.pushNamedAndRemoveUntil(context,
-                                    ConversationsPage.path, (route) => false);
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, HomePage.path, (route) => false);
                               }
                             },
                           ),

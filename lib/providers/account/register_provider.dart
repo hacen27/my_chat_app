@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/pages/conversations_page.dart';
+import 'package:my_chat_app/pages/conversation/conversations_page.dart';
 import 'package:my_chat_app/providers/account/auth_provider.dart';
 import 'package:my_chat_app/utils/error_handling.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -33,9 +33,11 @@ class RegisterProvider with ChangeNotifier {
       }
     } on AuthException catch (error) {
       log(error.toString());
-      ErrorHandling.signUpException(error, context);
+      ErrorHandling.signUpException(error);
     } catch (_) {
-      ErrorHandling.signUpException(_, context);
+      ErrorHandling.signUpException(
+        _,
+      );
     }
     notifyListeners();
   }
