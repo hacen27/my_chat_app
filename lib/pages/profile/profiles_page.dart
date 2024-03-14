@@ -23,7 +23,6 @@ class _ProfilesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: Colors.amber,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
