@@ -22,7 +22,8 @@ class SectionWidget extends StatelessWidget {
         onTap: onTap,
         child: Row(
           children: [
-            Icon(icon, color: Theme.of(context).colorScheme.tertiary, size: 20),
+            Icon(icon,
+                color: Theme.of(context).colorScheme.secondary, size: 20),
             const SizedBox(width: 16.0),
             Expanded(
               child: Column(

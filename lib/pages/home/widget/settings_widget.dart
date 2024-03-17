@@ -18,6 +18,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   late String currentDefaultSystemLocale;
   late LocaleProvider _appLocale;
   int selectedLangIndex = 0;
+  ThemeMode themeMode = ThemeMode.system;
 
   @override
   void initState() {
@@ -45,8 +46,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         langIndex = 2;
         break;
       default:
-        // Add logic to handle unexpected language codes
-        langIndex = 0; // Or choose a default index
+        langIndex = 0;
         break;
     }
     return langIndex;
@@ -54,13 +54,32 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _appLocale =
-        Provider.of<LocaleProvider>(context); // Use Provider within build
+    _appLocale = Provider.of<LocaleProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
         actions: [
+          TextButton(
+              onPressed: () {
+                setState(() {
+                  themeMode = ThemeMode.light;
+                });
+              },
+              child: Text(
+                "light",
+                style: Theme.of(context).textTheme.labelLarge,
+              )),
+          TextButton(
+              onPressed: () {
+                setState(() {
+                  themeMode = ThemeMode.dark;
+                });
+              },
+              child: Text(
+                "dark",
+                style: Theme.of(context).textTheme.labelLarge,
+              )),
           TextButton(
             onPressed: () async {
               await supabase.auth.signOut();

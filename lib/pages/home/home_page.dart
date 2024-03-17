@@ -46,8 +46,8 @@ class _HomePageState extends State<_HomePage> {
       bottomNavigationBar: MediaQuery.of(context).size.width < 640
           ? BottomNavigationBar(
               currentIndex: _selectedIndex,
-              unselectedItemColor: Colors.grey,
-              selectedItemColor: Colors.indigoAccent,
+              unselectedItemColor: Theme.of(context).colorScheme.secondary,
+              selectedItemColor: Theme.of(context).colorScheme.onPrimary,
               elevation: 10,
               onTap: (int index) {
                 setState(() {
@@ -74,8 +74,8 @@ class _HomePageState extends State<_HomePage> {
                 });
               },
               labelType: NavigationRailLabelType.all,
-              selectedLabelTextStyle: const TextStyle(
-                color: Colors.amber,
+              selectedLabelTextStyle: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
               ),
               leading: const Column(
                 children: [
@@ -104,7 +104,7 @@ class _HomePageState extends State<_HomePage> {
 
   void showDataBottomSheet(BuildContext context) {
     showModalBottomSheet<void>(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Theme.of(context).colorScheme.onBackground,
       context: context,
       builder: (context) => Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -114,9 +114,9 @@ class _HomePageState extends State<_HomePage> {
             padding: const EdgeInsets.all(13.0),
             margin:
                 const EdgeInsets.only(bottom: 8, top: 16, left: 17, right: 17),
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.background,
+                borderRadius: const BorderRadius.all(Radius.circular(20.0))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
