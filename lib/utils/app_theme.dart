@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_chat_app/pages/widgets/app_pallete.dart';
+import 'package:my_chat_app/utils/app_pallete.dart';
 
 class MyAppThemes {
   static final lightTheme = ThemeData(
